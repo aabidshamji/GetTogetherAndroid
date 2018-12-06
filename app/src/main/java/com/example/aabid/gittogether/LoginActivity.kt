@@ -6,6 +6,11 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.AuthResult
+import android.support.annotation.NonNull
+import com.google.android.gms.tasks.OnCompleteListener
+import android.R.attr.password
 import android.view.View
 import com.google.firebase.auth.UserProfileChangeRequest
 
