@@ -7,23 +7,23 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="@string/profile" />
+            android:title="Profile" />
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/messages" />
+            android:title="Messages" />
         <item
             android:id="@+id/nav_friends"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/friends" />
+            android:title="Friends" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"
-            android:title="@string/settings" />
+            android:title="Settings" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_share"
-            android:title="@string/logout" />
+            android:title="Logout" />
     </group>
 
 </menu>
