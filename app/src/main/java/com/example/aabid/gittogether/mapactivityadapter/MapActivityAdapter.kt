@@ -1,5 +1,5 @@
 package com.example.aabid.gittogether.mapactivityadapter
-
+/*
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -83,3 +83,4 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, 
         notifyItemMoved(fromPosition, toPosition)
     }
 }
+        */
