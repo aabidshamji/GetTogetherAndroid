@@ -9,6 +9,8 @@ import co.chatsdk.firebase.FirebaseNetworkAdapter
 import co.chatsdk.ui.manager.BaseInterfaceAdapter
 import co.chatsdk.core.session.ChatSDK
 import co.chatsdk.core.session.Configuration
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.PhoneAuthProvider
 
 
 class ChatActivity : AppCompatActivity() {
@@ -34,6 +36,8 @@ class ChatActivity : AppCompatActivity() {
         // File storage is needed for profile image upload and image messages
         FirebaseFileStorageModule.activate()
         FirebasePushModule.activate()
+
+        FirebaseUIModule.activate(context, GoogleAuthProvider.PROVIDER_ID, PhoneAuthProvider.PROVIDER_ID);
 
     }
 }
