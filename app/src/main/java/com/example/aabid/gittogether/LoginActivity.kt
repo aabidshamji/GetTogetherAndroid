@@ -6,13 +6,6 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
-import jdk.nashorn.internal.runtime.ECMAException.getException
-import com.google.firebase.auth.FirebaseUser
-import org.junit.experimental.results.ResultMatchers.isSuccessful
-import com.google.firebase.auth.AuthResult
-import android.support.annotation.NonNull
-import com.google.android.gms.tasks.OnCompleteListener
-import android.R.attr.password
 import android.view.View
 import com.google.firebase.auth.UserProfileChangeRequest
 

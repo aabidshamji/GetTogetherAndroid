@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.aabid.gittogether.MainActivity
 import com.example.aabid.gittogether.R
 import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.touch.TouchHelperAdapter
+import kotlinx.android.synthetic.main.group_member_row_content.view.*
 import java.util.*
 
 class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, TouchHelperAdapter {
