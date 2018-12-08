@@ -11,6 +11,7 @@ import com.google.firebase.auth.AuthResult
 import android.support.annotation.NonNull
 import com.google.android.gms.tasks.OnCompleteListener
 import android.R.attr.password
+import android.opengl.Visibility
 import android.view.View
 import com.google.firebase.auth.UserProfileChangeRequest
 
@@ -35,13 +36,17 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
+        progressBar.visibility = View.VISIBLE
+
         FirebaseAuth.getInstance().signInWithEmailAndPassword(
             etEmail.text.toString(),
             etPassword.text.toString()
         ).addOnSuccessListener {
+            progressBar.visibility = View.INVISIBLE
             startActivity(Intent(this@LoginActivity,
                 MainActivity::class.java))
         }.addOnFailureListener{
+            progressBar.visibility = View.INVISIBLE
             Toast.makeText(this@LoginActivity,
                 "Login error ${it.message}",Toast.LENGTH_LONG).show()
         }

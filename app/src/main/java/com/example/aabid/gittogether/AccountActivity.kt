@@ -2,6 +2,7 @@ package com.example.aabid.gittogether
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -27,6 +28,8 @@ class AccountActivity : AppCompatActivity() {
             return
         }
 
+        progressBar2.visibility = View.VISIBLE
+
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(
             etEmail.text.toString(), etPassword.text.toString()
         ).addOnSuccessListener {
@@ -36,10 +39,12 @@ class AccountActivity : AppCompatActivity() {
                     setDisplayName(etFirst.text.toString() + " " + etLast.text.toString())
                     .build()
             )
+            progressBar2.visibility = View.INVISIBLE
             Toast.makeText(this@AccountActivity,
                 "Registration OK", Toast.LENGTH_LONG).show()
 
         }.addOnFailureListener{
+            progressBar2.visibility = View.INVISIBLE
             Toast.makeText(this@AccountActivity,
                 "Register error ${it.message}", Toast.LENGTH_LONG).show()
         }
