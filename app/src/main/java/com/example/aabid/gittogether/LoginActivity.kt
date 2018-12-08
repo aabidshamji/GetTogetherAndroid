@@ -23,26 +23,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun registerClick(v: View) {
-        if (!isFormValid()) {
-            return
-        }
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-            etEmail.text.toString(), etPassword.text.toString()
-        ).addOnSuccessListener {
-            val user = it.user
-            user.updateProfile(
-                UserProfileChangeRequest.Builder().
-                    setDisplayName(userNameFromEmail(user.email!!))
-                    .build()
-            )
-            Toast.makeText(this@LoginActivity,
-                "Registration OK", Toast.LENGTH_LONG).show()
+        startActivity(Intent(this@LoginActivity,
+            AccountActivity::class.java))
 
-        }.addOnFailureListener{
-            Toast.makeText(this@LoginActivity,
-                "Register error ${it.message}", Toast.LENGTH_LONG).show()
-        }
     }
 
     fun loginClick(v: View) {
@@ -78,6 +62,4 @@ class LoginActivity : AppCompatActivity() {
             else -> true
         }
     }
-
-    private fun userNameFromEmail(email: String) = email.substringBefore("@")
 }
