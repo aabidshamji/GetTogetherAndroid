@@ -2,6 +2,7 @@ package com.example.aabid.gittogether
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -35,9 +36,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val marker = LatLng(47.0, 19.0)
+        mMap.addMarker(MarkerOptions().position(marker).title("Marker"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker))
+
+        mMap.isTrafficEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
     }
 }
