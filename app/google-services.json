@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "737592550443-3007gb8kcjlm55n8qpes88kgkp36hqk0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.aabid.gittogether",
+            "certificate_hash": "b7989c6f303545d7d6f47b9b0b75c439580ca21b"
+          }
+        },
+        {
           "client_id": "737592550443-kvnhh2k0unbjrcf38se8vrevuq48pkg4.apps.googleusercontent.com",
           "client_type": 3
         }

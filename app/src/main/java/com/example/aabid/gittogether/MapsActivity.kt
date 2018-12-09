@@ -3,6 +3,7 @@ package com.example.aabid.gittogether
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,6 +29,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         database = FirebaseDatabase.getInstance().reference
+
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("message")
+
+        myRef.setValue("Hello, World!")
 
         //initRecyclerView()
     }
@@ -70,4 +76,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
     }
+
+    /*private fun initRecyclerView() {
+        Thread {
+            var users = 1
+            items = items.reversed()
+
+            runOnUiThread {
+                itemAdapter = ItemAdapter(this@MainActivity, items)
+
+                recyclerItem.adapter = itemAdapter
+                val callback = ItemTouchHelperCallback(itemAdapter)
+                val touchHelper = ItemTouchHelper(callback)
+                touchHelper.attachToRecyclerView(recyclerItem)
+            }
+        }.start()
+    }*/
 }
