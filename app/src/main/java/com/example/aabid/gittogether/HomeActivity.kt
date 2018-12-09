@@ -10,12 +10,13 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.aabid.gittogether.data.Group
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
+import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.nav_header_home.*
 
 
@@ -95,12 +96,21 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 var newGroup = Group(founder = mAuth.currentUser?.uid.toString())
 
-                database.child("groups").child("testGroup").setValue("hello")
+                newGroup.members.add(0, "1")
+                newGroup.members.add(0, "2")
+                newGroup.members.add(0, "3")
+
+                database.child("groups").child("testGroup").setValue(newGroup).addOnSuccessListener {
+                    Toast.makeText(this, "DONE!", Toast.LENGTH_LONG).show()
+                }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
+                    }
 
 
             }
             R.id.nav_slideshow -> {
-
+                
             }
             R.id.nav_manage -> {
 
