@@ -43,10 +43,6 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, 
         val groupMembers = groupMembersItems[position]
 
         holder.tvName.text = groupMembers.name
-
-        holder.btnDelete.setOnClickListener {
-            deleteGroupMembers(holder.adapterPosition)
-        }
     }
 
     private fun deleteGroupMembers(adapterPosition: Int) {
@@ -64,8 +60,8 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, 
 
     inner class ViewHolder(groupMembersView: View) : RecyclerView.ViewHolder(groupMembersView)
     {
-        val tvName = groupMembersView.tvName
-        val btnDelete = groupMembersView.btnDelete
+        val tvName = groupMembersView.tvUserName
+        val ivProfilePic = itemView.ivProfilePic
     }
 
 
