@@ -10,15 +10,19 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.example.aabid.gittogether.data.Group
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.nav_header_home.*
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,22 +42,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        mAuth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference
 
-        val database : DatabaseReference
-
-        val currUser = mAuth.currentUser
-
-        if (currUser?.displayName != null) {
-            Log.e("Name", currUser.displayName.toString())
-            Log.e("Email", currUser.email.toString())
-
-            tvMenuName?.text = currUser.displayName.toString()
-            tvMenuEmail?.text = currUser.email.toString()
-        } else {
-            tvMenuName.text = "Error"
-            tvMenuEmail.text = "Error"
-        }
 
     }
 
@@ -68,6 +59,16 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home, menu)
+
+        val currUser = mAuth.currentUser
+
+        if (currUser?.displayName != null) {
+            tvMenuName.text = currUser.displayName.toString()
+            tvMenuEmail.text = currUser.email.toString()
+        } else {
+            tvMenuName.text = "Error"
+            tvMenuEmail.text = "Error"
+        }
         return true
     }
 
@@ -92,6 +93,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_gallery -> {
 
+                var newGroup = Group(founder = mAuth.currentUser?.uid.toString())
+
+                database.child("groups").child("testGroup").setValue("hello")
+
+
             }
             R.id.nav_slideshow -> {
 
@@ -102,7 +108,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_share -> {
 
             }
-            R.id.nav_send -> {
+            R.id.nav_logout -> {
+
+                var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+                mAuth.signOut()
+                startActivity(
+                    Intent(this@HomeActivity,
+                        LoginActivity::class.java)
+                )
 
             }
         }
