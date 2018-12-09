@@ -55,16 +55,16 @@ class AccountActivity : AppCompatActivity() {
 
     private fun isFormValid(): Boolean {
         return when {
-            etEmail.text.isEmpty() -> {
-                etEmail.error = "This field can not be empty"
-                false
-            }
             etFirst.text.isEmpty() -> {
                 etFirst.error = "This field can not be empty"
                 false
             }
             etLast.text.isEmpty() -> {
                 etLast.error = "This field can not be empty"
+                false
+            }
+            etEmail.text.isEmpty() -> {
+                etEmail.error = "This field can not be empty"
                 false
             }
             etPassword.text.isEmpty() -> {
