@@ -3,6 +3,7 @@ package com.example.aabid.gittogether
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -43,6 +44,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.isTrafficEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+        mMap.setOnMapClickListener {
+            val markerOpt = MarkerOptions()
+                .position(it)
+                .title("My Marker ${it.latitude}, ${it.longitude}")
+
+            val markerNew = mMap.addMarker(markerOpt)
+
+            markerNew.isDraggable = true
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(it))
+
+            Toast.makeText(this, "Lat: ${it.latitude}, Long: ${it.longitude}", Toast.LENGTH_LONG).show()
+
+
+        }
+
     }
 }
