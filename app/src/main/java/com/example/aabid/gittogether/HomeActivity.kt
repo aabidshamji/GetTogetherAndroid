@@ -7,10 +7,16 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
+import kotlinx.android.synthetic.main.nav_header_home.*
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,6 +37,24 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
+        val database : DatabaseReference
+
+        val currUser = mAuth.currentUser
+
+        if (currUser?.displayName != null) {
+            Log.e("Name", currUser.displayName.toString())
+            Log.e("Email", currUser.email.toString())
+
+            tvMenuName?.text = currUser.displayName.toString()
+            tvMenuEmail?.text = currUser.email.toString()
+        } else {
+            tvMenuName.text = "Error"
+            tvMenuEmail.text = "Error"
+        }
+
     }
 
     override fun onBackPressed() {
