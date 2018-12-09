@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         ).addOnSuccessListener {
             progressBar.visibility = View.INVISIBLE
             startActivity(Intent(this@LoginActivity,
-                MainActivity::class.java))
+                HomeActivity::class.java))
         }.addOnFailureListener{
             progressBar.visibility = View.INVISIBLE
             Toast.makeText(this@LoginActivity,

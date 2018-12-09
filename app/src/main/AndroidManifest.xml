@@ -43,6 +43,11 @@
                 android:name=".MapsActivity"
                 android:label="@string/title_activity_maps">
         </activity>
+        <activity
+                android:name=".HomeActivity"
+                android:label="@string/title_activity_home"
+                android:theme="@style/MyTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
