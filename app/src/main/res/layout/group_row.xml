@@ -5,12 +5,12 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cvGroup_Member"
+        android:id="@+id/cvGroup"
         android:layout_margin="10dp"
         card_view:cardBackgroundColor="#6a83ff"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="4dp"
-        android:onClick="goToProfile">
+        android:onClick="groupDetails">
 
     <include layout="@layout/group_member_row_content" />
 
