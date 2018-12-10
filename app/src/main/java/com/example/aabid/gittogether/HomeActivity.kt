@@ -35,8 +35,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            showAddGroupDialog()
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -152,8 +151,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showAddGroupDialog() {
-        Toast.makeText(this, "HELLO", Toast.LENGTH_LONG).show()
-
+        GroupDialog().show(supportFragmentManager,
+            "TAG_CREATE")
     }
 
     fun groupDetails(v: View) {
