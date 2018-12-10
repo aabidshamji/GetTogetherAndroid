@@ -1,11 +1,13 @@
 package com.example.aabid.gittogether
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
@@ -88,13 +90,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.nav_maps -> {
                 startActivity(
                     Intent(this@HomeActivity,
                         MapsActivity::class.java)
                 )
             }
-            R.id.nav_gallery -> {
+            R.id.nav_create_group -> {
 
                 var newGroup = Group(founder = mAuth.currentUser?.uid.toString())
 
@@ -108,8 +110,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .addOnFailureListener {
                         Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
                     }
-
-
             }
             R.id.nav_profile -> {
                 startActivity(
@@ -117,30 +117,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         ProfileActivity::class.java)
                 )
             }
-            R.id.nav_friends -> {
-
-            }
             R.id.nav_share -> {
-
-                val emailIntent = Intent(android.content.Intent.ACTION_SEND)
-                emailIntent.type = "text/plain"
-                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Join This Awesome App!!")
-                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "You should download this app called get together. It is really cool!")
-                startActivity(Intent.createChooser(emailIntent, "Send mail..."))
-
+                shareEmail()
             }
             R.id.nav_settings -> {
-
+                showAddGroupDialog()
             }
             R.id.nav_logout -> {
-
-                var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
-                mAuth.signOut()
-                startActivity(
-                    Intent(this@HomeActivity,
-                        LoginActivity::class.java)
-                )
-
+                logout()
             }
         }
 
@@ -148,9 +132,28 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun showAddGroupDialog() {
-        AddGroupDialog().show(supportFragmentManager,
-            "TAG_CREATE")
+    private fun shareEmail() {
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        emailIntent.type = "text/plain"
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Join This Awesome App!!")
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "You should download this app called get together. It is really cool!")
+        startActivity(Intent.createChooser(emailIntent, "Send mail..."))
+    }
+
+    private fun logout() {
+        var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        mAuth.signOut()
+        startActivity(
+            Intent(
+                this@HomeActivity,
+                LoginActivity::class.java
+            )
+        )
+    }
+
+    private fun showAddGroupDialog() {
+        Toast.makeText(this, "HELLO", Toast.LENGTH_LONG).show()
+
     }
 
     fun groupDetails(v: View) {
