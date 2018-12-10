@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.widget.Toast
+import com.example.aabid.gittogether.data.Group
+import com.example.aabid.gittogether.data.Locations
 import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.mapactivityadapter.MapActivityAdapter
 import com.example.aabid.gittogether.touch.TouchHelperCallback
@@ -34,7 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         database = FirebaseDatabase.getInstance().reference
 
-        
+
 
         //initRecyclerView()
     }
@@ -48,14 +50,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    private fun neighbor(users: MutableList<User>): MutableList<Locations> {
+        var groups = mutableListOf<Locations>()
+        for(i in 0 until users.size) {
+            var members = mutableListOf<User>()
+            members.add(users[i])
+            for(j in i until users.size) {
+                if((users[i].latitude-1)<users[j].latitude && users[j].latitude<(users[i].latitude+1)
+                    && (users[i].longitude-1)<users[j].longitude && users[j].longitude<(users[i].longitude+1)) {
+                    members.add(users[j])
+                    users[j].longitude = 200
+                }
+            }
+            if(members.size > 2) {
+                var lat = 0
+                var long = 0
+                for(member in members) {
+                    lat += member.latitude
+                    long += member.longitude
+                }
+                groups.add(Locations(lat/members.size, long/members.size, members.size))
+            }
+        }
+        return groups
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        val marker = LatLng(47.0, 19.0)
-        mMap.addMarker(MarkerOptions().position(marker).title("Marker"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker))
+        //TODO add users here
+        val users = MutableList(2) {User("", "",2,2)}
+        val groups = neighbor(users)
+        for(i in 0 until groups.size) {
+            mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude.toDouble(),groups[i].longitude.toDouble())).title("${groups[i].size} members"))
+        }
 
-        mMap.isTrafficEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL

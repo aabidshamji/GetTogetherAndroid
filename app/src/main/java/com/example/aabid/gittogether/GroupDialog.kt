@@ -1,6 +1,7 @@
 package com.example.aabid.gittogether
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.group_dialog.*
 import kotlinx.android.synthetic.main.group_dialog.view.*
+import java.lang.RuntimeException
 
 class GroupDialog : DialogFragment() {
 
