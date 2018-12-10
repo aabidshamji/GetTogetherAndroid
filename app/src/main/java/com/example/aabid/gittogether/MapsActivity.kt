@@ -2,14 +2,10 @@ package com.example.aabid.gittogether
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.widget.Toast
-import com.example.aabid.gittogether.data.Group
 import com.example.aabid.gittogether.data.Locations
 import com.example.aabid.gittogether.data.User
-import com.example.aabid.gittogether.mapactivityadapter.MapActivityAdapter
-import com.example.aabid.gittogether.touch.TouchHelperCallback
+import com.example.aabid.gittogether.mapactivity.MapActivityAdapter
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,7 +14,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_maps.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 

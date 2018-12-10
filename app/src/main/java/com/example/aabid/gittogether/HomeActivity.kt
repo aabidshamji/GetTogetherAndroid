@@ -2,6 +2,7 @@ package com.example.aabid.gittogether
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -15,8 +16,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.aabid.gittogether.data.Group
+import com.example.aabid.gittogether.mapactivity.MyLocationProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.livinglifetechway.quickpermissions.annotations.WithPermissions
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
@@ -24,10 +27,11 @@ import kotlinx.android.synthetic.main.group_row_content.view.*
 import kotlinx.android.synthetic.main.nav_header_home.*
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable {
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var database: DatabaseReference
+    private lateinit var myLocationProvider: MyLocationProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +55,23 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        startLocation()
+    }
+
+    @WithPermissions(
+        permissions = [android.Manifest.permission.ACCESS_FINE_LOCATION]
+    )
+    fun startLocation() {
+        myLocationProvider = MyLocationProvider(this,
+            this)
+        myLocationProvider.startLocationMonitoring()
+    }
+
+    //TODO need to add new location to database. Not really sure how to do this
+    override fun onNewLocation(location: Location) {}
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {

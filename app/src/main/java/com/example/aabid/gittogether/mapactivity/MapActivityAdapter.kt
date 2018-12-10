@@ -1,11 +1,10 @@
-package com.example.aabid.gittogether.mapactivityadapter
+package com.example.aabid.gittogether.mapactivity
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.aabid.gittogether.MainActivity
 import com.example.aabid.gittogether.R
 import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.touch.TouchHelperAdapter
