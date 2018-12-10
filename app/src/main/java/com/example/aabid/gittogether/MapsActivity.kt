@@ -34,6 +34,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         database = FirebaseDatabase.getInstance().reference
 
+        
+
         //initRecyclerView()
     }
 

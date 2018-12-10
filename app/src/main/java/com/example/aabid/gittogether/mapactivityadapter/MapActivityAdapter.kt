@@ -46,7 +46,8 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, 
     }
 
     private fun deleteGroupMembers(adapterPosition: Int) {
-        Thread {
+        //TODO Add user to group and display
+        /*Thread {
             AppDatabase.getInstance(
                 context).groupMembersDao().deleteGroupMembers(groupMembersItems[adapterPosition])
 
@@ -55,7 +56,7 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, 
             (context as MainActivity).runOnUiThread {
                 notifyItemRemoved(adapterPosition)
             }
-        }.start()
+        }.start()*/
     }
 
     inner class ViewHolder(groupMembersView: View) : RecyclerView.ViewHolder(groupMembersView)
