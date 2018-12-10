@@ -26,12 +26,12 @@
             android:layout_height="33dp"
             android:inputType="textPersonName"
             android:ems="10"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:id="@+id/etFirst"
             app:layout_constraintTop_toBottomOf="@+id/tvFirst" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            app:layout_constraintHorizontal_bias="0.235"/>
+            app:layout_constraintHorizontal_bias="0.231"/>
     <TextView
             android:text="Last Name:"
             android:layout_width="wrap_content"
@@ -46,12 +46,12 @@
             android:layout_height="33dp"
             android:inputType="textPersonName"
             android:ems="10"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:id="@+id/etLast"
             app:layout_constraintTop_toBottomOf="@+id/tvLast" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            app:layout_constraintHorizontal_bias="0.235"/>
+            app:layout_constraintHorizontal_bias="0.231"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="26dp"
@@ -66,12 +66,12 @@
             android:layout_height="33dp"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:id="@+id/etEmail"
             app:layout_constraintTop_toBottomOf="@+id/tvEmail" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            app:layout_constraintHorizontal_bias="0.235"/>
+            app:layout_constraintHorizontal_bias="0.231"/>
     <TextView
             android:text="Password:"
             android:layout_width="wrap_content"
@@ -87,11 +87,11 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/etPassword"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/tvPassword" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.235"/>
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.231"/>
     <TextView
             android:text="Confirm Password:"
             android:layout_width="wrap_content"
@@ -107,19 +107,19 @@
             android:ems="10"
             android:id="@+id/etConfirm"
             android:layout_height="33dp"
-            android:textSize="20sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/tvConfirm" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            app:layout_constraintHorizontal_bias="0.235"/>
+            app:layout_constraintHorizontal_bias="0.231"/>
     <Button
             android:text="Register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnRegister" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.46"/>
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.439"/>
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
