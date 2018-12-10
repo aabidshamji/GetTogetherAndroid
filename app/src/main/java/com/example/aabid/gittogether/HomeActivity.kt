@@ -96,19 +96,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 )
             }
             R.id.nav_create_group -> {
-
-                var newGroup = Group(founder = mAuth.currentUser?.uid.toString())
-
-                newGroup.members.add(0, "1")
-                newGroup.members.add(0, "2")
-                newGroup.members.add(0, "3")
-
-                database.child("groups").child("testGroup").setValue(newGroup).addOnSuccessListener {
-                    Toast.makeText(this, "DONE!", Toast.LENGTH_LONG).show()
-                }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
-                    }
+                showAddGroupDialog()
             }
             R.id.nav_profile -> {
                 startActivity(

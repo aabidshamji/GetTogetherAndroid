@@ -54,6 +54,7 @@ class GroupDialog : DialogFragment() {
         positiveButton.setOnClickListener {
             if (etGroupName.text.isNotEmpty()) {
                 createGroup(etGroupName.text.toString(), getNames(etMembers.text.toString()))
+                dialog.dismiss()
             } else {
                 etGroupName.error = "This field cannot be empty"
             }
@@ -63,7 +64,8 @@ class GroupDialog : DialogFragment() {
     private fun createGroup(str : String, frnds : List<String>) {
         var newGroup = Group(founder = mAuth.currentUser?.uid.toString())
 
-        for (i in 0 .. frnds.size) {
+        newGroup.name = str
+        for (i in 0 until frnds.size) {
             newGroup.members.add(i, frnds[i]);
         }
 
@@ -77,7 +79,6 @@ class GroupDialog : DialogFragment() {
 
     private fun getNames(str : String) : List<String> {
         var lst =  str.split(",".toRegex());
-        Log.i("mem1: ", lst[0])
         return lst;
     }
 }
