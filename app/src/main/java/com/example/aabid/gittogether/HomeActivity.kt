@@ -1,5 +1,6 @@
 package com.example.aabid.gittogether
 
+import android.app.ProgressDialog.show
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -7,17 +8,16 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.aabid.gittogether.data.Group
+import com.example.aabid.gittogether.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
-import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.group_row_content.view.*
 import kotlinx.android.synthetic.main.nav_header_home.*
 
@@ -88,13 +88,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.nav_maps -> {
                 startActivity(
                     Intent(this@HomeActivity,
                         MapsActivity::class.java)
                 )
             }
-            R.id.nav_gallery -> {
+            R.id.nav_create_group -> {
 
                 var newGroup = Group(founder = mAuth.currentUser?.uid.toString())
 
@@ -112,12 +112,20 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_slideshow -> {
+
+                showAddGroupDialog()
                 
             }
-            R.id.nav_manage -> {
+            R.id.nav_share -> {
+
+                val emailIntent = Intent(android.content.Intent.ACTION_SEND)
+                emailIntent.type = "text/plain"
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Join This Awesome App!!")
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "You should download this app called get together. It is really cool!")
+                startActivity(Intent.createChooser(emailIntent, "Send mail..."))
 
             }
-            R.id.nav_share -> {
+            R.id.nav_settings -> {
 
             }
             R.id.nav_logout -> {
@@ -134,6 +142,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun showAddGroupDialog() {
+        AddGroupDialog().show(supportFragmentManager,
+            "TAG_CREATE")
     }
 
     fun groupDetails(v: View) {

@@ -12,6 +12,6 @@
         card_view:cardElevation="4dp"
         android:onClick="groupDetails">
 
-    <include layout="@layout/group_member_row_content" />
+    <include layout="@layout/group_row_content" />
 
 </android.support.v7.widget.CardView>
