@@ -2,11 +2,12 @@ package com.example.aabid.gittogether
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.widget.Toast
 import com.example.aabid.gittogether.data.User
+import com.example.aabid.gittogether.mapactivityadapter.MapActivityAdapter
+import com.example.aabid.gittogether.touch.TouchHelperCallback
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,11 +16,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_maps.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private  lateinit var database : DatabaseReference
+    private lateinit var mapActivityAdapter: MapActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,16 +78,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     /*private fun initRecyclerView() {
         Thread {
-            var users = 1
-            items = items.reversed()
+            var users =
+            users = users.reversed()
 
             runOnUiThread {
-                itemAdapter = ItemAdapter(this@MainActivity, items)
+                mapActivityAdapter = MapActivityAdapter(this@MapsActivity, users)
 
-                recyclerItem.adapter = itemAdapter
-                val callback = ItemTouchHelperCallback(itemAdapter)
+                recyclerViewNames.adapter = mapActivityAdapter
+                val callback = TouchHelperCallback(mapActivityAdapter)
                 val touchHelper = ItemTouchHelper(callback)
-                touchHelper.attachToRecyclerView(recyclerItem)
+                touchHelper.attachToRecyclerView(recyclerViewNames)
             }
         }.start()
     }*/

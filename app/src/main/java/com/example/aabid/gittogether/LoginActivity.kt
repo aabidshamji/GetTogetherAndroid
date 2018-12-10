@@ -67,4 +67,9 @@ class LoginActivity : AppCompatActivity() {
             else -> true
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        finish()
+    }
 }

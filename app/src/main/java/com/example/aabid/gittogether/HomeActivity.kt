@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.example.aabid.gittogether.data.Group
 import com.google.firebase.auth.FirebaseAuth
@@ -17,6 +18,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.group_row_content.view.*
 import kotlinx.android.synthetic.main.nav_header_home.*
 
 
@@ -132,5 +134,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun groupDetails(v: View) {
+        val intentStart = Intent()
+        intentStart.setClass((this@HomeActivity),
+            MapsActivity::class.java)
+        val group = v.tvGroupName.text.toString()
+        intentStart.putExtra("GROUP_NAME", group)
+        startActivity(intentStart)
     }
 }
