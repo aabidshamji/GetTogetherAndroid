@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.group_member_row_content.view.*
 import java.util.*
 import android.support.v4.content.ContextCompat.startActivity
-
+import kotlinx.android.synthetic.main.app_bar_home.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -39,13 +39,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+        //TODO This could cause issues.  If code crashes check this
+        setSupportActionBar(toolbar)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         database = FirebaseDatabase.getInstance().reference
 
+        val intentMaps = intent
+        val groupID = intentMaps.getIntExtra("GROUP_NAME", 0)
+        val currUser = intentMaps.getIntExtra("USER", 0)
 
 
         //initRecyclerView()
@@ -87,6 +93,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
         //TODO add users here
         val users = MutableList(2) {User("", "",2,2)}
@@ -100,33 +109,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude.toDouble(),groups[i].longitude.toDouble())).title("${groups[i].size} members at ${addrs?.get(0)}"))
         }
 
-        mMap.uiSettings.isCompassEnabled = true
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        mMap.setOnMarkerClickListener {
+            lat = it.position.latitude
+            long = it.position.longitude
+            val gc = Geocoder(this, Locale.getDefault())
+            val addrs: List<Address>? = gc.getFromLocation(lat, long, 1)
+            btnDirections.text = applicationContext.getString(R.string.directions, addrs?.get(0))
 
-        mMap.setOnMapClickListener { it ->
-            val markerOpt = MarkerOptions()
-                .position(it)
-                .title("My Marker ${it.latitude}, ${it.longitude}")
-
-            val markerNew = mMap.addMarker(markerOpt)
-
-            markerNew.isDraggable = true
-
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(it))
-
-            Toast.makeText(this, "Lat: ${it.latitude}, Long: ${it.longitude}", Toast.LENGTH_LONG).show()
-
-            mMap.setOnMarkerClickListener() {
-                lat = it.position.latitude
-                long = it.position.longitude
-                val gc = Geocoder(this, Locale.getDefault())
-                var addrs: List<Address>? = gc.getFromLocation(lat, long, 1)
-                btnDirections.text = "Get directions to ${addrs?.get(0)}"
-
-                false
-            }
-
+            false
         }
     }
 
@@ -171,7 +161,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_leave -> {
-                //TODO Need to delete group member whose id matches users id and remove from recycler
+                //TODO Need to remove user with given id
             }
         }
         return when (item.itemId) {

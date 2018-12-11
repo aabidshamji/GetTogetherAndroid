@@ -36,7 +36,6 @@ class GroupDialog : DialogFragment() {
             R.layout.group_dialog, null
         )
         etGroupName = rootView.etGroupName
-        etMembers = rootView.etMembers
 
         builder.setView(rootView)
 
