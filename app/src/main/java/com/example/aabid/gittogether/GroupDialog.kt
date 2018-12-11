@@ -25,7 +25,6 @@ class GroupDialog : DialogFragment() {
     private lateinit var etMembers: EditText
     private lateinit var mAuth: FirebaseAuth
     private lateinit var database: DatabaseReference
-    private lateinit var currUser : User
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
@@ -45,6 +44,7 @@ class GroupDialog : DialogFragment() {
 
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
+
 
         return builder.create()
     }

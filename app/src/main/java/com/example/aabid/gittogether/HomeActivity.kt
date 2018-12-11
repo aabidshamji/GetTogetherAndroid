@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.example.aabid.gittogether.data.Group
 import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.mapactivity.MyLocationProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +32,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var database: DatabaseReference
     private lateinit var myLocationProvider: MyLocationProvider
     private lateinit var mCurrUserReference: DatabaseReference
+    private lateinit var mGroupsReference: DatabaseReference
     private lateinit var currUser : User
+    private lateinit var groupsList : MutableList<Group>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +56,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
         mCurrUserReference = database.child("users").child(mAuth.currentUser!!.uid)
+        mGroupsReference = database.child("groups")
         currUser = User()
+        groupsList = mutableListOf()
 
         val currUserListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -75,6 +80,35 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         mCurrUserReference.addValueEventListener(currUserListener)
+
+
+
+        val groupsListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                for (snap in dataSnapshot.children) {
+                    for (groupName in currUser.groups) {
+                        if (snap.hasChild(groupName)) {
+                            var gottenGroup = snap.child(groupName).getValue<Group>(Group::class.java)!!
+                            groupsList.add(gottenGroup)
+
+                            Log.i("addingGroup founder", gottenGroup.founder)
+                            Log.i("addingGroup name", gottenGroup.name)
+                            Log.i("addingGroup uid", gottenGroup.uid)
+                            Log.i("addingGroup members", gottenGroup.members.toString())
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.e("loadPost:onCancelled", databaseError.toException().toString())
+                // ...
+            }
+        }
+
+        mGroupsReference.addValueEventListener(groupsListener)
 
     }
 
