@@ -70,7 +70,7 @@ class GroupDialog : DialogFragment() {
         }
 
         database.child("groups").child(str).setValue(newGroup).addOnSuccessListener {
-            Toast.makeText(context as HomeActivity, "DONE!", Toast.LENGTH_LONG).show()
+            //Toast.makeText(context as HomeActivity, "DONE!", Toast.LENGTH_LONG).show()
         }
             .addOnFailureListener {
                 Toast.makeText(context as HomeActivity, "Failed :(", Toast.LENGTH_LONG).show()

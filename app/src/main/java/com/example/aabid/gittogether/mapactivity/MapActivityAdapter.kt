@@ -11,7 +11,7 @@ import com.example.aabid.gittogether.touch.TouchHelperAdapter
 import kotlinx.android.synthetic.main.group_member_row_content.view.*
 import java.util.*
 
-class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, TouchHelperAdapter {
+class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder> {
 
 
     var groupMembersItems = mutableListOf<User>()
@@ -68,14 +68,5 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder>, 
     fun addGroupMembers(groupMembers: User) {
         groupMembersItems.add(0, groupMembers)
         notifyItemInserted(0)
-    }
-
-    override fun onDismissed(position: Int) {
-        deleteGroupMembers(position)
-    }
-
-    override fun onUserMoved(fromPosition: Int, toPosition: Int) {
-        Collections.swap(groupMembersItems, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
     }
 }
