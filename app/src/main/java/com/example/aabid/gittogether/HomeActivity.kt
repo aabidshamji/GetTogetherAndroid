@@ -1,30 +1,30 @@
 package com.example.aabid.gittogether
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import com.example.aabid.gittogether.data.Group
+import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.mapactivity.MyLocationProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.livinglifetechway.quickpermissions.annotations.WithPermissions
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
-import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.group_row_content.view.*
 import kotlinx.android.synthetic.main.nav_header_home.*
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ValueEventListener
+
+
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable {
@@ -32,6 +32,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var mAuth: FirebaseAuth
     private lateinit var database: DatabaseReference
     private lateinit var myLocationProvider: MyLocationProvider
+    private lateinit var mCurrUserReference: DatabaseReference
+    private lateinit var currUser : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,27 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
+        mCurrUserReference = database.child("users").child(mAuth.currentUser!!.uid)
+
+        val currUserListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                currUser = dataSnapshot.getValue<User>(User::class.java)!!
+
+                Log.i("currUser uid", currUser.uid)
+                Log.i("currUser name", currUser.name)
+                Log.i("currUser groups", currUser.groups.toString())
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.e("loadPost:onCancelled", databaseError.toException().toString())
+                // ...
+            }
+        }
+
+        mCurrUserReference.addValueEventListener(currUserListener)
+
 
 
     }
