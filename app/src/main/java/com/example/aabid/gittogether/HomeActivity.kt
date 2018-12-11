@@ -149,6 +149,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_create_group -> {
                 showAddGroupDialog()
             }
+            R.id.action_join -> {
+                //TODO Need to open a dialog that allows you to type in group ID
+            }
             R.id.nav_profile -> {
                 startActivity(
                     Intent(this@HomeActivity,
@@ -199,7 +202,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         intentStart.setClass((this@HomeActivity),
             MapsActivity::class.java)
         val group = v.tvGroupName.text.toString()
+        //TODO Currently taking the group name but need the group id
         intentStart.putExtra("GROUP_NAME", group)
+        intentStart.putExtra("USER", currUser.uid)
         startActivity(intentStart)
     }
 }
