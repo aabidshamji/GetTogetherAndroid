@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import com.example.aabid.gittogether.data.User
-import com.example.aabid.gittogether.mapactivity.MapActivityAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
@@ -20,7 +19,6 @@ class AccountActivity : AppCompatActivity() {
 
     private lateinit var etEmailBox : EditText
     private lateinit var etPasswordBox : EditText
-    private lateinit var userAdapter: MapActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,52 +93,48 @@ class AccountActivity : AppCompatActivity() {
 
     }
 
-    private fun addUser() {
-        userAdapter.addGroupMembers(User(FirebaseAuth.getInstance().currentUser!!.uid,
-            etFirst.text.toString() + etLast.text.toString(), 0, 0)
-    }
-
     private fun addUserToDB(newUser : User) {
 
-            var database = FirebaseDatabase.getInstance().reference
+        var database = FirebaseDatabase.getInstance().reference
 
-            database.child("users").child(newUser.uid).setValue(newUser).addOnSuccessListener {
-                Toast.makeText(this, "DONE!", Toast.LENGTH_LONG).show()
-            }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
-                }
+        newUser.groups.add("default")
 
+        database.child("users").child(newUser.uid).setValue(newUser).addOnSuccessListener {
+            Toast.makeText(this, "DONE!", Toast.LENGTH_LONG).show()
         }
-
-                private fun isFormValid(): Boolean {
-            return when {
-                etFirst.text.isEmpty() -> {
-                    etFirst.error = "This field can not be empty"
-                    false
-                }
-                etLast.text.isEmpty() -> {
-                    etLast.error = "This field can not be empty"
-                    false
-                }
-                etEmail.text.isEmpty() -> {
-                    etEmail.error = "This field can not be empty"
-                    false
-                }
-                etPassword.text.isEmpty() -> {
-                    etPassword.error = "This field can not be empty"
-                    false
-                }
-                etConfirm.text.isEmpty() -> {
-                    etConfirm.error = "This field can not be empty"
-                    false
-                }
-                etPassword.text.toString() != etConfirm.text.toString() -> {
-                    etConfirm.error = "Password does not match"
-                    false
-                }
-                else -> true
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
             }
+
+    }
+
+    private fun isFormValid(): Boolean {
+        return when {
+            etFirst.text.isEmpty() -> {
+                etFirst.error = "This field can not be empty"
+                false
+            }
+            etLast.text.isEmpty() -> {
+                etLast.error = "This field can not be empty"
+                false
+            }
+            etEmail.text.isEmpty() -> {
+                etEmail.error = "This field can not be empty"
+                false
+            }
+            etPassword.text.isEmpty() -> {
+                etPassword.error = "This field can not be empty"
+                false
+            }
+            etConfirm.text.isEmpty() -> {
+                etConfirm.error = "This field can not be empty"
+                false
+            }
+            etPassword.text.toString() != etConfirm.text.toString() -> {
+                etConfirm.error = "Password does not match"
+                false
+            }
+            else -> true
         }
     }
 }
