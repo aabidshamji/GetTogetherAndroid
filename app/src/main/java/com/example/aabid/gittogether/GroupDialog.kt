@@ -55,7 +55,7 @@ class GroupDialog : DialogFragment() {
         val positiveButton = (dialog as AlertDialog).getButton(Dialog.BUTTON_POSITIVE)
         positiveButton.setOnClickListener {
             if (etGroupName.text.isNotEmpty()) {
-                createGroup(etGroupName.text.toString(), getNames(etMembers.text.toString()))
+                createGroup(etGroupName.text.toString())
                 dialog.dismiss()
             } else {
                 etGroupName.error = "This field cannot be empty"
@@ -63,13 +63,10 @@ class GroupDialog : DialogFragment() {
         }
     }
 
-    private fun createGroup(str : String, frnds : List<String>) {
+    private fun createGroup(str : String) {
         var newGroup = Group(founder = mAuth.currentUser?.uid.toString())
 
         newGroup.name = str
-        for (i in 0 until frnds.size) {
-            newGroup.members.add(i, frnds[i]);
-        }
 
         newGroup.members.add(newGroup.founder)
 
@@ -88,10 +85,5 @@ class GroupDialog : DialogFragment() {
             }
 
         //database.child("users").child(newGroup.founder).child("groups")
-    }
-
-    private fun getNames(str : String) : List<String> {
-        var lst =  str.split(",".toRegex());
-        return lst;
     }
 }

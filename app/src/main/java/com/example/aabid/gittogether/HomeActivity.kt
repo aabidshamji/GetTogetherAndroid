@@ -23,8 +23,6 @@ import kotlinx.android.synthetic.main.nav_header_home.*
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
-import com.google.protobuf.LazyStringArrayList
-import java.util.ArrayList
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable {
