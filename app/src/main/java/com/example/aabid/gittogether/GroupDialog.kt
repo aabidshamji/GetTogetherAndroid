@@ -1,5 +1,6 @@
 package com.example.aabid.gittogether
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.bumptech.glide.load.engine.bitmap_recycle.IntegerArrayAdapter
 import com.example.aabid.gittogether.data.Group
+import com.example.aabid.gittogether.data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -23,6 +25,7 @@ class GroupDialog : DialogFragment() {
     private lateinit var etMembers: EditText
     private lateinit var mAuth: FirebaseAuth
     private lateinit var database: DatabaseReference
+    private lateinit var currUser : User
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
@@ -69,12 +72,23 @@ class GroupDialog : DialogFragment() {
             newGroup.members.add(i, frnds[i]);
         }
 
-        database.child("groups").child(str).setValue(newGroup).addOnSuccessListener {
+        newGroup.members.add(newGroup.founder)
+
+        //database.child("groups").child(str).setValue(newGroup).addOnSuccessListener {
+
+        var newGroupRef = database.child("groups").push().key!!
+
+        newGroup.uid = newGroupRef
+
+        database.child("groups").child(newGroupRef).setValue(newGroup).addOnSuccessListener {
             //Toast.makeText(context as HomeActivity, "DONE!", Toast.LENGTH_LONG).show()
+
         }
             .addOnFailureListener {
                 Toast.makeText(context as HomeActivity, "Failed :(", Toast.LENGTH_LONG).show()
             }
+
+        //database.child("users").child(newGroup.founder).child("groups")
     }
 
     private fun getNames(str : String) : List<String> {

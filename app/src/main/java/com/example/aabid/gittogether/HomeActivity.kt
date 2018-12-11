@@ -23,8 +23,8 @@ import kotlinx.android.synthetic.main.nav_header_home.*
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
-
-
+import com.google.protobuf.LazyStringArrayList
+import java.util.ArrayList
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable {
@@ -55,6 +55,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
         mCurrUserReference = database.child("users").child(mAuth.currentUser!!.uid)
+        currUser = User()
 
         val currUserListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -93,7 +94,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         myLocationProvider.startLocationMonitoring()
     }
 
-    //TODO need to add new location to database. Not really sure how to do this
+
     override fun onNewLocation(location: Location) {
         setLocation(location)
     }
