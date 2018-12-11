@@ -64,6 +64,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Log.i("currUser uid", currUser.uid)
                 Log.i("currUser name", currUser.name)
                 Log.i("currUser groups", currUser.groups.toString())
+                Log.i("currUser latitude", currUser.latitude.toString())
+                Log.i("currUser latitude", currUser.longitude.toString())
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -74,8 +76,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         mCurrUserReference.addValueEventListener(currUserListener)
-
-
 
     }
 
@@ -94,7 +94,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     //TODO need to add new location to database. Not really sure how to do this
-    override fun onNewLocation(location: Location) {}
+    override fun onNewLocation(location: Location) {
+        setLocation(location)
+    }
+
+    private fun setLocation(location: Location) {
+        database.child("users").child(currUser.uid).child("latitude").setValue(location.latitude)
+        database.child("users").child(currUser.uid).child("longitude").setValue(location.longitude)
+    }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
