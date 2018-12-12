@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">GitTogether</string>
+    <string name="app_name" translatable="false">Git Together</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_home">HomeActivity</string>
@@ -87,4 +87,6 @@
     <string name="cancel">Cancel</string>
     <string name="join_a_group">Join a group</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="group_map">Group Map</string>
 </resources>

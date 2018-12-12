@@ -15,7 +15,7 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/MyTheme">
         <activity android:name=".MainActivity">
         </activity>
         <activity
@@ -38,8 +38,7 @@
 
         <activity
                 android:name=".MapsActivity"
-                android:label="@string/title_activity_maps"
-                android:theme="@style/MyTheme.NoActionBar">
+                android:label="@string/group_map">
         </activity>
         <activity
                 android:name=".HomeActivity"
