@@ -97,7 +97,7 @@ class AccountActivity : AppCompatActivity() {
 
         var database = FirebaseDatabase.getInstance().reference
 
-        newUser.groups.add("default")
+        newUser.groups.plusElement("default")
 
         database.child("users").child(newUser.uid).setValue(newUser).addOnSuccessListener {
             Toast.makeText(this, "DONE!", Toast.LENGTH_LONG).show()

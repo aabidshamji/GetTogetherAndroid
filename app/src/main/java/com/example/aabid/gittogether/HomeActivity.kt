@@ -60,6 +60,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         currUser = User()
         groupsList = mutableListOf()
 
+
         val currUserListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -81,34 +82,51 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mCurrUserReference.addValueEventListener(currUserListener)
 
+        //mGroupsReference.addValueEventListener(groupsListener)
 
+        mGroupsReference.addChildEventListener(object:ChildEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
-        val groupsListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                for (snap in dataSnapshot.children) {
-                    for (groupName in currUser.groups) {
-                        if (snap.hasChild(groupName)) {
-                            var gottenGroup = snap.child(groupName).getValue<Group>(Group::class.java)!!
-                            groupsList.add(gottenGroup)
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
-                            Log.i("addingGroup founder", gottenGroup.founder)
-                            Log.i("addingGroup name", gottenGroup.name)
-                            Log.i("addingGroup uid", gottenGroup.uid)
-                            Log.i("addingGroup members", gottenGroup.members.toString())
-                        }
-                    }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val group = p0.getValue(Group::class.java)
+
+                groupsList.add(group!!)
+
+                /*
+                Log.d("TAGDDD GROUPLIST", currUser.groups.toString())
+                Log.d("TAGDDD NEW UID", group?.uid)
+                if (currUser.groups.contains(group?.uid)) {
+                    groupsList.add(group!!)
+                    Log.d("TAGDDD ADDED", group.name)
+
+                    Log.d("T addingGroup founder", group.founder)
+                    Log.d("T addingGroup name", group.name)
+                    Log.d("T addingGroup uid", group.uid)
+                    Log.d("T addingGroup members", group.members.toString())
+
+                } else {
+                    Log.d("TAGDDD NOT-ADDED",group?.name)
                 }
+                */
+                //p0.key
+
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.e("loadPost:onCancelled", databaseError.toException().toString())
-                // ...
+            override fun onChildRemoved(p0: DataSnapshot) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
-        }
 
-        mGroupsReference.addValueEventListener(groupsListener)
+        })
 
     }
 

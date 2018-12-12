@@ -84,6 +84,8 @@ class GroupDialog : DialogFragment() {
                 Toast.makeText(context as HomeActivity, "Failed :(", Toast.LENGTH_LONG).show()
             }
 
+        database.child("users").child(newGroup.founder).child("groups").child("0").setValue(newGroupRef)
+
         //database.child("users").child(newGroup.founder).child("groups")
     }
 }
