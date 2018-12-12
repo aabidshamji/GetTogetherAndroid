@@ -77,4 +77,9 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
         notifyItemInserted(0)
     }
 
+    fun addFullGroup(groupListNew: MutableList<Group>) {
+        groupList = groupListNew
+        notifyItemInserted(0)
+    }
+
 }

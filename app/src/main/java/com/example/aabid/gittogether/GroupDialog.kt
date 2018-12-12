@@ -13,8 +13,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.IntegerArrayAdapter
 import com.example.aabid.gittogether.data.Group
 import com.example.aabid.gittogether.data.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.group_dialog.*
 import kotlinx.android.synthetic.main.group_dialog.view.*
 import java.lang.RuntimeException
@@ -25,6 +24,7 @@ class GroupDialog : DialogFragment() {
     private lateinit var etMembers: EditText
     private lateinit var mAuth: FirebaseAuth
     private lateinit var database: DatabaseReference
+    private lateinit var currUser: User
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
@@ -44,6 +44,27 @@ class GroupDialog : DialogFragment() {
 
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
+
+        val currUserListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                currUser = dataSnapshot.getValue<User>(User::class.java)!!
+
+                Log.i("currUser uid", currUser.uid)
+                Log.i("currUser name", currUser.name)
+                Log.i("currUser groups", currUser.groups.toString())
+                Log.i("currUser latitude", currUser.latitude.toString())
+                Log.i("currUser latitude", currUser.longitude.toString())
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.e("loadPost:onCancelled", databaseError.toException().toString())
+                // ...
+            }
+        }
+
+        database.child("users").child(mAuth.currentUser!!.uid).addValueEventListener(currUserListener)
 
 
         return builder.create()
@@ -84,7 +105,11 @@ class GroupDialog : DialogFragment() {
                 Toast.makeText(context as HomeActivity, "Failed :(", Toast.LENGTH_LONG).show()
             }
 
-        database.child("users").child(newGroup.founder).child("groups").child("0").setValue(newGroupRef)
+        
+        currUser.groups.add(newGroup.uid)
+
+        database.child("users").child(mAuth.currentUser!!.uid).child("groups").setValue(currUser.groups)
+
 
         //database.child("users").child(newGroup.founder).child("groups")
     }

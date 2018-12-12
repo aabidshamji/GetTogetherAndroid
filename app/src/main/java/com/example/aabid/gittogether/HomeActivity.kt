@@ -7,14 +7,17 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.example.aabid.gittogether.R.id.home
 import com.example.aabid.gittogether.data.Group
 import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.groupadapter.HomeActivityAdapter
 import com.example.aabid.gittogether.mapactivity.MyLocationProvider
+import com.example.aabid.gittogether.touch.TouchHelperCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.livinglifetechway.quickpermissions.annotations.WithPermissions
@@ -25,6 +28,7 @@ import kotlinx.android.synthetic.main.nav_header_home.*
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.content_home.*
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable {
@@ -36,7 +40,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var mGroupsReference: DatabaseReference
     private lateinit var currUser : User
     private lateinit var groupsList : MutableList<Group>
-    private lateinit var homeActivityAdapter: HomeActivityAdapter
+    private lateinit var homeActivityAdapter : HomeActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +67,16 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         groupsList = mutableListOf()
 
 
+
+
+        //mGroupsReference.addValueEventListener(groupsListener)
+
+
+        initRecyclerView()
+
+    }
+
+    fun startGetGroups(){
         val currUserListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -73,6 +87,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Log.i("currUser groups", currUser.groups.toString())
                 Log.i("currUser latitude", currUser.latitude.toString())
                 Log.i("currUser latitude", currUser.longitude.toString())
+
+                getGroups()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -83,9 +99,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         mCurrUserReference.addValueEventListener(currUserListener)
+    }
 
-        //mGroupsReference.addValueEventListener(groupsListener)
-
+    fun getGroups(){
         mGroupsReference.addChildEventListener(object:ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -102,24 +118,22 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val group = p0.getValue(Group::class.java)
 
-                groupsList.add(group!!)
-
-                /*
                 Log.d("TAGDDD GROUPLIST", currUser.groups.toString())
                 Log.d("TAGDDD NEW UID", group?.uid)
+                var newList = mutableListOf<Group>()
                 if (currUser.groups.contains(group?.uid)) {
-                    groupsList.add(group!!)
-                    Log.d("TAGDDD ADDED", group.name)
+                    homeActivityAdapter.addGroup(group!!)
+                    Log.d("TAGDDD ADDED", group?.name)
 
-                    Log.d("T addingGroup founder", group.founder)
-                    Log.d("T addingGroup name", group.name)
-                    Log.d("T addingGroup uid", group.uid)
-                    Log.d("T addingGroup members", group.members.toString())
+                    Log.d("T addingGroup founder", group?.founder)
+                    Log.d("T addingGroup name", group?.name)
+                    Log.d("T addingGroup uid", group?.uid)
+                    Log.d("T addingGroup members", group?.members.toString())
 
                 } else {
                     Log.d("TAGDDD NOT-ADDED",group?.name)
                 }
-                */
+
                 //p0.key
 
             }
@@ -129,8 +143,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
         })
-
-        addAllGroups()
 
     }
 
@@ -156,12 +168,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setLocation(location: Location) {
         database.child("users").child(currUser.uid).child("latitude").setValue(location.latitude)
         database.child("users").child(currUser.uid).child("longitude").setValue(location.longitude)
-    }
-
-    private fun addAllGroups() {
-        for (i in groupsList) {
-            homeActivityAdapter.addGroup(i)
-        }
     }
 
     override fun onBackPressed() {
@@ -252,6 +258,44 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             )
         )
     }
+
+    /*private fun initRecyclcerView() {
+
+        homeActivityAdapter = HomeActivityAdapter(this@HomeActivity, groupsList)
+
+        recycler_groups.adapter = homeActivityAdapter
+
+    }*/
+
+    /*private fun initRecyclcerView() {
+        Thread {
+            val todoList = groupsList
+
+            homeActivityAdapter = HomeActivityAdapter(
+                this@HomeActivity,
+                todoList
+            )
+            Log.d("init", "recycler")
+
+            runOnUiThread {
+                recycler_groups.adapter = homeActivityAdapter
+
+                //val callback = TouchHelperCallback(homeActivityAdapter)
+                //val touchHelper = ItemTouchHelper(callback)
+                //touchHelper.attachToRecyclerView(recycler_groups)
+            }
+        }.start()
+    }*/
+
+    private fun initRecyclerView() {
+        homeActivityAdapter = HomeActivityAdapter(this@HomeActivity, groupsList)
+        recycler_groups.adapter = homeActivityAdapter
+
+        //getGroups()
+        startGetGroups()
+    }
+
+
 
     private fun showAddGroupDialog() {
         GroupDialog().show(supportFragmentManager,
