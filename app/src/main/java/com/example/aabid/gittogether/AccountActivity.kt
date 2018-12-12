@@ -31,8 +31,6 @@ class AccountActivity : AppCompatActivity() {
             btnRegisterClicked()
         }
 
-
-
     }
 
     private fun btnRegisterClicked() {

@@ -31,7 +31,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private  lateinit var database : DatabaseReference
-    private lateinit var mapActivityAdapter: MapActivityAdapter
     private lateinit var groups: MutableList<Locations>
     private var lat = 200.0
     private var long = 200.0
@@ -131,7 +130,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             this.startActivity(intent)
         }
     }
-
 
 
     /*private fun initRecyclerView() {
