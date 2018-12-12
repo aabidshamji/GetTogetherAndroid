@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnDirections"
-            android:text="Directions to nearest group."
+            android:layout_gravity="center"
+            android:text="Directions to nearest group"
             android:onClick="directions"/>
     <TextView
             android:id="@+id/tvGroupID"

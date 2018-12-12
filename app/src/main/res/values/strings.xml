@@ -86,4 +86,5 @@
     <string name="add">Add Group</string>
     <string name="cancel">Cancel</string>
     <string name="join_a_group">Join a group</string>
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>

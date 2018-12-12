@@ -97,6 +97,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
+        //TODO Update users location on location changed
         //TODO add users here
         val users = MutableList(2) {User("", "",2,2)}
         groups = neighbor(users)
@@ -162,6 +163,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         when(item.itemId) {
             R.id.action_leave -> {
                 //TODO Need to remove user with given id
+            }
+            R.id.action_refresh -> {
+                //TODO Need to update firebase information
             }
         }
         return when (item.itemId) {
