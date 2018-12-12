@@ -38,6 +38,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var groups: MutableList<Locations>
     private var lat = 200.0
     private var long = 200.0
+    private val users = MutableList(4) {User("1", "Sanah",2,2)}
+    private lateinit var mapActivityAdapter: MapActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +54,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         database = FirebaseDatabase.getInstance().reference
 
         val intentMaps = intent
-        val groupID = intentMaps.getIntExtra("GROUP_NAME", 0)
+        val groupID = intentMaps.getStringExtra("GROUP_NAME")
         val currUser = intentMaps.getIntExtra("USER", 0)
 
+        tvGroupName.text = groupID.toString()
 
-        //initRecyclerView()
+        initRecyclerView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -108,7 +111,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //TODO Update users location on location changed
         //TODO add users here
-        val users = MutableList(2) {User("", "",2,2)}
+       // val users = MutableList(2) {User("1", "Sanah",2,2),
+        //User("2", "Adam", 2, 2),
+        //User("3", "Aabid", 2,2)}
+
         groups = neighbor(users)
         for(i in 0 until groups.size) {
             val location = groups[i]
@@ -142,26 +148,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-    /*private fun initRecyclerView() {
-        Thread {
-            var users =
-            users = users.reversed()
+    private fun initRecyclerView() {
+        /*Thread {
 
             runOnUiThread {
                 mapActivityAdapter = MapActivityAdapter(this@MapsActivity, users)
 
                 recyclerViewNames.adapter = mapActivityAdapter
-                val callback = TouchHelperCallback(mapActivityAdapter)
-                val touchHelper = ItemTouchHelper(callback)
-                touchHelper.attachToRecyclerView(recyclerViewNames)
             }
-        }.start()
-    }*/
+        }.start()*/
+
+        mapActivityAdapter = MapActivityAdapter(this@MapsActivity, users)
+
+        recyclerViewNames.adapter = mapActivityAdapter
+
+        for (u in users) {
+            mapActivityAdapter.addGroupMembers(u)
+        }
+    }
 
     fun goToProfile(v: View) {
         val intentStart = Intent()
         intentStart.setClass((this@MapsActivity),
-            MapsActivity::class.java)
+            ProfileActivity::class.java)
         val username = v.tvUserName.text.toString()
         intentStart.putExtra("USER_NAME", username)
         startActivity(intentStart)
