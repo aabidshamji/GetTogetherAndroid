@@ -39,7 +39,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         //TODO This could cause issues.  If code crashes check this
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         val mapFragment = supportFragmentManager
@@ -65,7 +65,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    private fun neighbor(users: MutableList<User>): MutableList<Locations> {
+    override fun onMapReady(googleMap: GoogleMap) {
+    }
+    /*private fun neighbor(users: MutableList<User>): MutableList<Locations> {
         var groups = mutableListOf<Locations>()
         for(i in 0 until users.size) {
             var members = mutableListOf<User>()
@@ -129,7 +131,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             this.startActivity(intent)
         }
-    }
+    }*/
 
 
     /*private fun initRecyclerView() {
@@ -168,6 +170,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return when (item.itemId) {
             R.id.action_leave -> true
+            R.id.action_refresh -> true
             else -> super.onOptionsItemSelected(item)
         }
     }

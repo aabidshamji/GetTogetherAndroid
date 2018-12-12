@@ -30,7 +30,7 @@ class SplashActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animation?) {
                 var intentStart = Intent()
                 intentStart.setClass((this@SplashActivity),
-                    HomeActivity::class.java)
+                    LoginActivity::class.java)
                 startActivity(intentStart)
                 finish()
             }
