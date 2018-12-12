@@ -24,7 +24,11 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.group_member_row_content.view.*
 import java.util.*
 import android.support.v4.content.ContextCompat.startActivity
+import android.view.Menu
 import kotlinx.android.synthetic.main.app_bar_home.*
+import android.view.MenuInflater
+
+
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -39,7 +43,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         //TODO This could cause issues.  If code crashes check this
-        //setSupportActionBar(toolbar)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         val mapFragment = supportFragmentManager
@@ -56,6 +59,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         //initRecyclerView()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.maps_menu, menu)
+        return true
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -65,9 +74,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    override fun onMapReady(googleMap: GoogleMap) {
-    }
-    /*private fun neighbor(users: MutableList<User>): MutableList<Locations> {
+
+    private fun neighbor(users: MutableList<User>): MutableList<Locations> {
         var groups = mutableListOf<Locations>()
         for(i in 0 until users.size) {
             var members = mutableListOf<User>()
@@ -123,7 +131,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun directions(v: View) {
-        if(lat == 200.0) {
+        if(lat > 180.0) {
             Toast.makeText(this, "No location selected", Toast.LENGTH_LONG).show()
         }
         else {
@@ -131,7 +139,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             this.startActivity(intent)
         }
-    }*/
+    }
 
 
     /*private fun initRecyclerView() {
