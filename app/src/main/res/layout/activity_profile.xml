@@ -9,7 +9,7 @@
 
     <ImageView
             android:layout_width="150dp"
-            android:layout_height="150dp" android:background="@drawable/logo"
+            android:layout_height="150dp" android:background="@drawable/person"
             android:id="@+id/ivProfile"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp"

@@ -2,6 +2,7 @@ package com.example.aabid.gittogether
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -16,14 +17,23 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        val intentMaps = intent
+        val username = intentMaps.getStringExtra("USER_NAME")
+
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
 
         val currUser = mAuth.currentUser
 
         if (currUser?.displayName != null) {
-            tvName.text = currUser.displayName.toString()
-            tvEmail.text = currUser.email.toString()
+            if(username != null){
+                tvName.text = username
+                tvEmail.visibility = View.INVISIBLE
+            }
+            else {
+                tvName.text = currUser.displayName.toString()
+                tvEmail.text = currUser.email.toString()
+            }
         } else {
             tvName.text = "Error"
             tvEmail.text = "Error"
