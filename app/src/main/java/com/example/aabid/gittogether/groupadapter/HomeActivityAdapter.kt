@@ -68,7 +68,6 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
     {
         val tvGroupName = itemView.tvGroupName
         val tvUserNum = itemView.tvUserNum
-        val ivStatus = itemView.ivStatus
     }
 
 
