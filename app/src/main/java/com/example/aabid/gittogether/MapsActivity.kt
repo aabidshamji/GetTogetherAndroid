@@ -137,9 +137,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         mMap.setOnMarkerClickListener {
-            btnDirections.text = applicationContext.getString(R.string.directions, it.title)
-            lat = it.position.latitude
-            long = it.position.longitude
+            if(it.title != "No groups :(") {
+                btnDirections.text = applicationContext.getString(R.string.directions, it.title)
+                lat = it.position.latitude
+                long = it.position.longitude
+            }
             false
         }
     }
