@@ -88,6 +88,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
 
     private fun neighbor(users: MutableList<User>): MutableList<Locations> {
+        val dist = .0004
         var groups = mutableListOf<Locations>()
         for(i in 0 until users.size) {
             var members = mutableListOf<User>()
@@ -95,8 +96,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             var long = users[i].longitude
             members.add(users[i])
             for(j in i+1 until users.size) {
-                if((users[i].latitude-1)<users[j].latitude && users[j].latitude<(users[i].latitude+1)
-                    && (users[i].longitude-1)<users[j].longitude && users[j].longitude<(users[i].longitude+1)) {
+                if((users[i].latitude-dist)<users[j].latitude && users[j].latitude<(users[i].latitude+dist)
+                    && (users[i].longitude-dist)<users[j].longitude && users[j].longitude<(users[i].longitude+dist)) {
                     members.add(users[j])
                     lat += users[j].latitude
                     long += users[j].longitude
