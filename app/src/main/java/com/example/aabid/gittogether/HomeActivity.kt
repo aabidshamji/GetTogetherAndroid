@@ -12,6 +12,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import com.example.aabid.gittogether.R.id.add
 import com.example.aabid.gittogether.R.id.home
 import com.example.aabid.gittogether.data.Group
 import com.example.aabid.gittogether.data.User
@@ -41,6 +43,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var mGroupsReference: DatabaseReference
     private lateinit var currUser : User
     private lateinit var groupsList : MutableList<Group>
+    private lateinit var ALLgroupsList : MutableList<Group>
     private lateinit var homeActivityAdapter : HomeActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +69,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mGroupsReference = database.child("groups")
         currUser = User()
         groupsList = mutableListOf()
+        ALLgroupsList = mutableListOf()
 
 
         initRecyclerView()
@@ -112,7 +116,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 Log.d("TAGDDD GROUPLIST", currUser.groups.toString())
                 Log.d("TAGDDD NEW UID", group?.uid)
-                var newList = mutableListOf<Group>()
+
+                ALLgroupsList.add(group!!)
+
+
                 if (currUser.groups.contains(group?.uid)) {
                     homeActivityAdapter.addGroup(group!!)
                     Log.d("TAGDDD ADDED", group?.name)
@@ -154,7 +161,32 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun groupUpdated(uid: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        addGtoU(uid)
+    }
+
+    private fun addUtoG (groupUid: String) {
+
+        for (g in ALLgroupsList) {
+            if (g.uid == groupUid) {
+                g.members.add(FirebaseAuth.getInstance().currentUser!!.uid)
+                database.child("groups").child(groupUid).child("members").setValue(g.members)
+                break
+            } else {
+                Toast.makeText(this@HomeActivity, "Group does not exists", Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
+
+    private fun addGtoU (groupUid : String) {
+
+        currUser.groups.add(groupUid)
+
+        database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("groups").setValue(currUser.groups)
+
+        addUtoG(groupUid)
+
     }
 
     private fun setLocation(location: Location) {
@@ -265,4 +297,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onDestroy()
         myLocationProvider.stopLocationMonitoring()
     }
+
+
 }
