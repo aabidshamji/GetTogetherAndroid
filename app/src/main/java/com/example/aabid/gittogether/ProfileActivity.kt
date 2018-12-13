@@ -35,8 +35,8 @@ class ProfileActivity : AppCompatActivity() {
                 tvEmail.text = currUser.email.toString()
             }
         } else {
-            tvName.text = "Error"
-            tvEmail.text = "Error"
+            tvName.text = getString(R.string.error)
+            tvEmail.text = getString(R.string.error)
         }
     }
 }

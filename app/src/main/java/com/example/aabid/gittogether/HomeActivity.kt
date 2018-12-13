@@ -223,6 +223,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_create_group -> {
                 showAddGroupDialog()
             }
+            R.id.nav_join_group -> {
+                //TODO Need to open a dialog that allows you to type in group ID
+            }
             R.id.nav_profile -> {
                 startActivity(
                     Intent(this@HomeActivity,

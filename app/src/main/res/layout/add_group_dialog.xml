@@ -9,8 +9,8 @@
             android:id="@+id/etGroupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Group Name"
-            android:layout_marginLeft="8dp"/>
+            android:hint="@string/group_name_name"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:autofillHints="@string/group_name_name"/>
 
 
 </LinearLayout>

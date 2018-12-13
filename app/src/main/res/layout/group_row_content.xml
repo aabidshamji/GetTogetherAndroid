@@ -9,7 +9,7 @@
             android:id="@+id/tvGroupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group Name"
+            android:text="@string/group_name_name"
             android:textSize="24sp"
             android:maxLength="8"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"

@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_account.*
-import com.google.firebase.auth.FirebaseUser
 
 
 
@@ -41,7 +40,7 @@ class AccountActivity : AppCompatActivity() {
 
         progressBar2.visibility = View.VISIBLE
 
-        var newUser = User()
+        val newUser = User()
 
         newUser.name = etFirst.text.toString() + " " + etLast.text.toString()
 
@@ -56,13 +55,13 @@ class AccountActivity : AppCompatActivity() {
             )
             progressBar2.visibility = View.INVISIBLE
             Toast.makeText(this@AccountActivity,
-                "Registration OK", Toast.LENGTH_LONG).show()
+                getString(R.string.registration_ok), Toast.LENGTH_LONG).show()
             loginNewUser(newUser)
 
         }.addOnFailureListener{
             progressBar2.visibility = View.INVISIBLE
             Toast.makeText(this@AccountActivity,
-                "Register error ${it.message}", Toast.LENGTH_LONG).show()
+                applicationContext.getString(R.string.register_error, it.message),Toast.LENGTH_LONG).show()
         }
 
     }
@@ -82,26 +81,26 @@ class AccountActivity : AppCompatActivity() {
                         HomeActivity::class.java)
                 )
             } else {
-                Toast.makeText(this@AccountActivity, "Error Adding User to DB", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@AccountActivity, getString(R.string.error_adding_user_to_db), Toast.LENGTH_LONG).show()
             }
         }.addOnFailureListener{
             Toast.makeText(this@AccountActivity,
-                "Login error ${it.message}",Toast.LENGTH_LONG).show()
+                applicationContext.getString(R.string.login_error, it.message),Toast.LENGTH_LONG).show()
         }
 
     }
 
     private fun addUserToDB(newUser : User) {
 
-        var database = FirebaseDatabase.getInstance().reference
+        val database = FirebaseDatabase.getInstance().reference
 
         newUser.groups.plusElement("default")
 
         database.child("users").child(newUser.uid).setValue(newUser).addOnSuccessListener {
-            Toast.makeText(this, "DONE!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.done), Toast.LENGTH_LONG).show()
         }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.failed), Toast.LENGTH_LONG).show()
             }
 
     }
@@ -109,35 +108,31 @@ class AccountActivity : AppCompatActivity() {
     private fun isFormValid(): Boolean {
         return when {
             etFirst.text.isEmpty() -> {
-                etFirst.error = "This field can not be empty"
+                etFirst.error = getString(R.string.this_field_cannot)
                 false
             }
             etLast.text.isEmpty() -> {
-                etLast.error = "This field can not be empty"
+                etLast.error = getString(R.string.this_field_cannot)
                 false
             }
             etEmail.text.isEmpty() -> {
-                etEmail.error = "This field can not be empty"
+                etEmail.error = getString(R.string.this_field_cannot)
                 false
             }
             etPassword.text.isEmpty() -> {
-                etPassword.error = "This field can not be empty"
+                etPassword.error = getString(R.string.this_field_cannot)
                 false
             }
             etConfirm.text.isEmpty() -> {
-                etConfirm.error = "This field can not be empty"
+                etConfirm.error = getString(R.string.this_field_cannot)
                 false
             }
             etPassword.text.toString() != etConfirm.text.toString() -> {
-                etConfirm.error = "Password does not match"
+                etConfirm.error = getString(R.string.password_does_not_match)
                 false
             }
             else -> true
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-
-    }
 }
