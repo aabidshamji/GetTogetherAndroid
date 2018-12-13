@@ -42,7 +42,8 @@
 
         <activity
                 android:name=".MapsActivity"
-                android:label="@string/group_map">
+                android:label="@string/group_map"
+                android:theme="@style/MyTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".HomeActivity"
