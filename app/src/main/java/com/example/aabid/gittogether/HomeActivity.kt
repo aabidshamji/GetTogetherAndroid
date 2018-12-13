@@ -287,4 +287,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         intentStart.putExtra("USER", currUser.uid)
         startActivity(intentStart)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        myLocationProvider.stopLocationMonitoring()
+    }
 }
