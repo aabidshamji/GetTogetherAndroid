@@ -49,12 +49,14 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
 
         holder.tvGroupName.text = group.name
         holder.tvUserNum.text = group.members.size.toString()
+        holder.tvGroupID.text = group.uid
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
         val tvGroupName = itemView.tvGroupName
         val tvUserNum = itemView.tvUserNum
+        val tvGroupID = itemView.tvGroupID
     }
 
 
@@ -67,5 +69,6 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
         groupList = groupListNew
         notifyItemInserted(0)
     }
+
 
 }

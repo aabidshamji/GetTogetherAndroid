@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.group_row.*
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable {
@@ -166,8 +167,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setLocation(location: Location) {
-        database.child("users").child(currUser.uid).child("latitude").setValue(location.latitude)
-        database.child("users").child(currUser.uid).child("longitude").setValue(location.longitude)
+        database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("latitude").setValue(location.latitude)
+        database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("longitude").setValue(location.longitude)
     }
 
     override fun onBackPressed() {
@@ -279,8 +280,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         intentStart.setClass((this@HomeActivity),
             MapsActivity::class.java)
         val group = v.tvGroupName.text.toString()
+
         //TODO Currently taking the group name but need the group id
         intentStart.putExtra("GROUP_NAME", group)
+        intentStart.putExtra("GROUP_ID", v.tvGroupID.text.toString())
         intentStart.putExtra("USER", currUser.uid)
         startActivity(intentStart)
     }

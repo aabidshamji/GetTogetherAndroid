@@ -13,7 +13,6 @@ import com.example.aabid.gittogether.data.Locations
 import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.mapactivity.MapActivityAdapter
 
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -23,12 +22,9 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.group_member_row_content.view.*
 import java.util.*
-import android.support.v4.content.ContextCompat.startActivity
+import android.util.Log
 import android.view.Menu
-import kotlinx.android.synthetic.main.app_bar_home.*
-import android.view.MenuInflater
-
-
+import com.example.aabid.gittogether.data.Group
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -36,10 +32,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private  lateinit var database : DatabaseReference
     private lateinit var groups: MutableList<Locations>
+    private lateinit var membersList: Array<String>
     private var lat = 200.0
     private var long = 200.0
-    private val users = MutableList(4) {User("1", "Sanah",2,2)}
+    private val users = mutableListOf<User>()//MutableList(4) {User("1", "Sanah",2,2)}
     private lateinit var mapActivityAdapter: MapActivityAdapter
+    private lateinit var groupID : String
+    private lateinit var groupObj : Group
+    private lateinit var mCurrGroupReference : DatabaseReference
+    private lateinit var mUsersReference : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +55,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         database = FirebaseDatabase.getInstance().reference
 
         val intentMaps = intent
-        val groupID = intentMaps.getStringExtra("GROUP_NAME")
+        val groupName = intentMaps.getStringExtra("GROUP_NAME")
+
         val currUserID = intentMaps.getIntExtra("USER", 0)
 
-        tvGroupName.text = applicationContext.getString(R.string.group_name, groupID.toString())
+        tvGroupName.text = applicationContext.getString(R.string.group_name, groupName.toString())
+
+        groupID = intentMaps.getStringExtra("GROUP_ID")
+
+        groupObj = Group()
+
+        mCurrGroupReference = database.child("groups").child(groupID)
+        mUsersReference = database.child("users")
 
         initRecyclerView()
     }
@@ -162,9 +171,114 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         recyclerViewNames.adapter = mapActivityAdapter
 
-        for (u in users) {
+        startGetUsers()
+
+        /*for (u in users) {
             mapActivityAdapter.addGroupMembers(u)
+        } */
+    }
+
+    private fun getGroupMembers() {
+
+        mUsersReference.addChildEventListener(object:ChildEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Log.i("onChildCancelled", "Cancelled")            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                Log.i("onChildMoved", "Moved")            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val user = p0.getValue(User::class.java)
+
+                if (groupObj.members.contains(user?.uid)) {
+
+                    mapActivityAdapter.groupMembersItems
+
+                    for (dude in mapActivityAdapter.groupMembersItems) {
+                        if (dude.uid == user!!.uid) {
+                            dude.groups = user.groups
+                            dude.uid = user.uid
+                            dude.name = user.name
+                            dude.longitude = user.longitude
+                            dude.latitude = user.latitude
+                        }
+                    }
+
+                    mapActivityAdapter.addGroupMembers(user!!)
+
+                    Log.d("TAGDDD ADDED", user?.name)
+
+                    Log.d("T addingUser name", user?.name)
+                    Log.d("T addingUser uid", user?.uid)
+                    Log.d("T addingUser members", user?.groups.toString())
+
+                } else {
+                    Log.d("TAGDDD NOT-ADDED",user?.name)
+                }
+
+
+            }
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+
+                Log.d("MAPS T BEFORE", "DONDEONDEON")
+
+                val user = p0.getValue(User::class.java)
+
+                Log.d("MAPS T GROUPLIST", groupObj.members.toString())
+                Log.d("MAPS T UID", user?.uid)
+
+                if (groupObj.members.contains(user?.uid)) {
+                    mapActivityAdapter.addGroupMembers(user!!)
+
+                    Log.d("TAGDDD ADDED", user?.name)
+
+                    Log.d("T addingUser name", user?.name)
+                    Log.d("T addingUser uid", user?.uid)
+                    Log.d("T addingUser members", user?.groups.toString())
+
+                } else {
+                    Log.d("TAGDDD NOT-ADDED",user?.name)
+                }
+
+                //p0.key
+
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
+
+    }
+
+    private fun startGetUsers(){
+        val currGroupListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                groupObj = dataSnapshot.getValue<Group>(Group::class.java)!!
+
+                Log.i("GroupObj uid", groupObj.uid)
+                Log.i("GroupObj founder", groupObj.founder)
+                Log.i("GroupObj name", groupObj.name)
+                Log.i("GroupObj members", groupObj.members.toString())
+                Log.i("GroupObj latitude", groupObj.latitude.toString())
+                Log.i("GroupObj latitude", groupObj.longitude.toString())
+
+                getGroupMembers()
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.e("loadPost:onCancelled", databaseError.toException().toString())
+                // ...
+            }
         }
+
+        mCurrGroupReference.addValueEventListener(currGroupListener)
+
     }
 
     fun goToProfile(v: View) {
