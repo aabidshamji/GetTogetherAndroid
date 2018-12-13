@@ -61,7 +61,27 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
 
 
     fun addGroup(group: Group) {
-        groupList.add(0, group)
+
+        var mod = false
+
+        for (g in groupList) {
+            if (g.uid == group.uid) {
+                g.uid = group.uid
+                g.founder = group.founder
+                g.members = group.members
+                g.latitude = group.latitude
+                g.longitude = group.longitude
+                g.name = group.name
+                mod = true
+                notifyDataSetChanged()
+                break
+            }
+        }
+
+        if (!mod) {
+            groupList.add(0, group)
+        }
+
         notifyItemInserted(0)
     }
 
