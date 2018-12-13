@@ -96,12 +96,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 if((users[i].latitude-1)<users[j].latitude && users[j].latitude<(users[i].latitude+1)
                     && (users[i].longitude-1)<users[j].longitude && users[j].longitude<(users[i].longitude+1)) {
                     members.add(users[j])
-                    users[j].longitude = 200
+                    users[j].longitude = 200.0
                 }
             }
             if(members.size > 2) {
-                var lat = 0
-                var long = 0
+                var lat = 0.0
+                var long = 0.0
                 for(member in members) {
                     lat += member.latitude
                     long += member.longitude
@@ -203,8 +203,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             dude.latitude = user.latitude
                         }
                     }
-
-                    mapActivityAdapter.addGroupMembers(user!!)
 
                     Log.d("TAGDDD ADDED", user?.name)
 
