@@ -1,6 +1,7 @@
 package com.example.aabid.gittogether
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
@@ -15,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.code_dialog.view.*
 import kotlinx.android.synthetic.main.group_dialog.view.*
+import java.lang.RuntimeException
 import java.util.*
 
 class CodeDialog : DialogFragment() {
@@ -24,6 +26,18 @@ class CodeDialog : DialogFragment() {
     }
 
     private lateinit var groupHandler: GroupHandler
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is GroupHandler) {
+            groupHandler = context
+        } else {
+            throw RuntimeException(
+                "The activity does not implement the GroupHandlerInterface")
+        }
+    }
+
 
     private lateinit var etGroupCode: EditText
 
