@@ -25,6 +25,7 @@ import java.util.*
 import android.util.Log
 import android.view.Menu
 import com.example.aabid.gittogether.data.Group
+import com.google.android.gms.maps.CameraUpdateFactory
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -35,7 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var membersList: Array<String>
     private var lat = 200.0
     private var long = 200.0
-    private val users = mutableListOf<User>()//MutableList(4) {User("1", "Sanah",2,2)}
+    private val users = MutableList(4) {User("1", "Sanah",40.0,19.0)}
     private lateinit var mapActivityAdapter: MapActivityAdapter
     private lateinit var groupID : String
     private lateinit var groupObj : Group
@@ -45,7 +46,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        //TODO This could cause issues.  If code crashes check this
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         val mapFragment = supportFragmentManager
@@ -88,24 +88,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
 
     private fun neighbor(users: MutableList<User>): MutableList<Locations> {
+        val dist = .0004
         var groups = mutableListOf<Locations>()
         for(i in 0 until users.size) {
             var members = mutableListOf<User>()
+            var lat = users[i].latitude
+            var long = users[i].longitude
             members.add(users[i])
-            for(j in i until users.size) {
-                if((users[i].latitude-1)<users[j].latitude && users[j].latitude<(users[i].latitude+1)
-                    && (users[i].longitude-1)<users[j].longitude && users[j].longitude<(users[i].longitude+1)) {
+            for(j in i+1 until users.size) {
+                if((users[i].latitude-dist)<users[j].latitude && users[j].latitude<(users[i].latitude+dist)
+                    && (users[i].longitude-dist)<users[j].longitude && users[j].longitude<(users[i].longitude+dist)) {
                     members.add(users[j])
-                    users[j].longitude = 200.0
+                    lat += users[j].latitude
+                    long += users[j].longitude
+                    users[j].longitude = 200.0 + j*2
                 }
             }
             if(members.size > 2) {
-                var lat = 0.0
-                var long = 0.0
-                for(member in members) {
-                    lat += member.latitude
-                    long += member.longitude
-                }
                 groups.add(Locations(lat/members.size, long/members.size, members.size))
             }
         }
@@ -125,22 +124,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         //User("3", "Aabid", 2,2)}
 
         groups = neighbor(users)
-        for(i in 0 until groups.size) {
-            val location = groups[i]
-            val latitude = location.latitude.toDouble()
-            val longitude = location.longitude.toDouble()
-            val gc = Geocoder(this, Locale.getDefault())
-            var addrs: List<Address>? = gc.getFromLocation(latitude, longitude, 1)
-            mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude.toDouble(),groups[i].longitude.toDouble())).title("${groups[i].size} members at ${addrs?.get(0)}"))
+        if(groups.size != 0) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(groups[0].latitude,groups[0].longitude)))
+            for(i in 0 until groups.size) {
+                mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude, groups[i].longitude)).title("${groups[i].size} members"))
+            }
+        }
+        else {
+            mMap.addMarker(MarkerOptions().position(LatLng(0.0,0.0)).title("No groups :("))
         }
 
+
         mMap.setOnMarkerClickListener {
+            btnDirections.text = applicationContext.getString(R.string.directions, it.title)
             lat = it.position.latitude
             long = it.position.longitude
-            val gc = Geocoder(this, Locale.getDefault())
-            val addrs: List<Address>? = gc.getFromLocation(lat, long, 1)
-            btnDirections.text = applicationContext.getString(R.string.directions, addrs?.get(0))
-
             false
         }
     }
@@ -150,7 +148,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this, "No location selected", Toast.LENGTH_LONG).show()
         }
         else {
-            val uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, long)
+            val uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", lat, long, lat, long)
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             this.startActivity(intent)
         }
@@ -203,6 +201,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             dude.latitude = user.latitude
                         }
                     }
+
+                    mapActivityAdapter.addGroupMembers(user!!)
 
                     Log.d("TAGDDD ADDED", user?.name)
 
