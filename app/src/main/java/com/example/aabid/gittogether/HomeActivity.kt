@@ -162,31 +162,23 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun groupUpdated(uid: String) {
 
-        addGtoU(uid)
-    }
-
-    private fun addUtoG (groupUid: String) {
+        var joined = false
 
         for (g in ALLgroupsList) {
-            if (g.uid == groupUid) {
+            if (g.uid == uid) {
                 g.members.add(FirebaseAuth.getInstance().currentUser!!.uid)
-                database.child("groups").child(groupUid).child("members").setValue(g.members)
+                database.child("groups").child(uid).child("members").setValue(g.members)
+                joined = true
+                currUser.groups.add(uid)
+                database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("groups").setValue(currUser.groups)
+                Toast.makeText(this@HomeActivity, "Group joined successfully", Toast.LENGTH_LONG).show()
                 break
-            } else {
-                Toast.makeText(this@HomeActivity, "Group does not exists", Toast.LENGTH_LONG).show()
             }
         }
 
-    }
-
-    private fun addGtoU (groupUid : String) {
-
-        currUser.groups.add(groupUid)
-
-        database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("groups").setValue(currUser.groups)
-
-        addUtoG(groupUid)
-
+        if (!joined) {
+            Toast.makeText(this@HomeActivity, "Group does not exists", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun setLocation(location: Location) {
@@ -224,7 +216,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showAddGroupDialog()
             }
             R.id.nav_join_group -> {
-                //TODO Need to open a dialog that allows you to type in group ID
+                showJoinGroupDialog()
             }
             R.id.nav_profile -> {
                 startActivity(
@@ -277,6 +269,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun showAddGroupDialog() {
         GroupDialog().show(supportFragmentManager,
+            "TAG_CREATE")
+    }
+
+    private fun showJoinGroupDialog() {
+        CodeDialog().show(supportFragmentManager,
             "TAG_CREATE")
     }
 
