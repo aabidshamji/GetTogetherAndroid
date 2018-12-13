@@ -42,6 +42,10 @@ class GroupDialog : DialogFragment() {
                 dialog, witch -> // empty
         }
 
+        builder.setNegativeButton("CANCEL") {
+            dialog, which ->  dialog.dismiss()
+        }
+
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
 

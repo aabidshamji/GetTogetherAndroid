@@ -19,7 +19,7 @@
     <style name="NiceButtonStyle" parent="Base.Widget.AppCompat.Button">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">#f8f9f6</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/nice_button</item>
         <item name="android:padding">10dp</item>

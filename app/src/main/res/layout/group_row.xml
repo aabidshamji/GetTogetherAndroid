@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/cvGroup"
         android:layout_margin="10dp"
-        card_view:cardBackgroundColor="#6a83ff"
+        card_view:cardBackgroundColor="#a1a9d6"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="4dp"
         android:onClick="groupDetails">

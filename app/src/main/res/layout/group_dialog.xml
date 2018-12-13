@@ -5,15 +5,11 @@
               android:theme="@style/AppTheme"
               android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/tvGroupName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Group Name: "/>
-
     <EditText
             android:id="@+id/etGroupName"
-            android:layout_width="match_parent"
+            android:layout_width="272dp"
+            android:layout_marginLeft="5dp"
+            android:hint="Enter group name"
             android:layout_height="wrap_content"/>
 
 </LinearLayout>

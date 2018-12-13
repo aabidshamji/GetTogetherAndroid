@@ -7,11 +7,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/cvGroup_Member"
         android:layout_margin="10dp"
-        card_view:cardBackgroundColor="#6a83ff"
+        card_view:cardBackgroundColor="#a1a9d6"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="4dp"
         android:onClick="goToProfile">
 
-    <include layout="@layout/group_member_row_content" />
+    <include layout="@layout/group_member_row_content"/>
 
 </android.support.v7.widget.CardView>
