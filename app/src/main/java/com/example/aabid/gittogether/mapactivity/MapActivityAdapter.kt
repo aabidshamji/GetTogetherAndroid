@@ -63,8 +63,28 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder> {
     }
 
 
-    fun addGroupMembers(groupMembers: User) {
-        groupMembersItems.add(0, groupMembers)
+    fun addGroupMembers(newMember: User) {
+
+        var mod = false
+
+        for (g in groupMembersItems) {
+            if (g.uid == newMember.uid) {
+                g.uid = newMember.uid
+                g.groups = newMember.groups
+                g.latitude = newMember.latitude
+                g.longitude = newMember.longitude
+                g.name = newMember.name
+                mod = true
+                notifyDataSetChanged()
+                break
+            }
+        }
+
+        if (!mod) {
+            groupMembersItems.add(0, newMember)
+        }
+
         notifyItemInserted(0)
+
     }
 }

@@ -1,11 +1,14 @@
 package com.example.aabid.gittogether
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -36,7 +39,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var membersList: Array<String>
     private var lat = 200.0
     private var long = 200.0
-    private val users = MutableList(4) {User("1", "Sanah",40.0,19.0)}
+    private val users = mutableListOf<User>()//MutableList(4) {User("1", "Sanah",40.0,19.0)}
     private lateinit var mapActivityAdapter: MapActivityAdapter
     private lateinit var groupID : String
     private lateinit var groupObj : Group
@@ -116,12 +119,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-
-        //TODO Update users location on location changed
-        //TODO add users here
-       // val users = MutableList(2) {User("1", "Sanah",2,2),
-        //User("2", "Adam", 2, 2),
-        //User("3", "Aabid", 2,2)}
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+            mMap.isMyLocationEnabled = true
+        }
 
         groups = neighbor(users)
         if(groups.size != 0) {
@@ -136,9 +137,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         mMap.setOnMarkerClickListener {
-            btnDirections.text = applicationContext.getString(R.string.directions, it.title)
-            lat = it.position.latitude
-            long = it.position.longitude
+            if(it.title != "No groups :(") {
+                btnDirections.text = applicationContext.getString(R.string.directions, it.title)
+                lat = it.position.latitude
+                long = it.position.longitude
+            }
             false
         }
     }

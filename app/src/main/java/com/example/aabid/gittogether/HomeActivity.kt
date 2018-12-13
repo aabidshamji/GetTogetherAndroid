@@ -208,12 +208,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_maps -> {
-                startActivity(
-                    Intent(this@HomeActivity,
-                        MapsActivity::class.java)
-                )
-            }
             R.id.nav_create_group -> {
                 showAddGroupDialog()
             }
@@ -228,9 +222,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_share -> {
                 shareEmail()
-            }
-            R.id.nav_settings -> {
-                showAddGroupDialog()
             }
             R.id.nav_logout -> {
                 logout()
