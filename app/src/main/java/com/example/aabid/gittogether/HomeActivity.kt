@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.group_row.*
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable, CodeDialog.GroupHandler {
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var database: DatabaseReference
@@ -166,6 +166,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setLocation(location)
     }
 
+    override fun groupUpdated(uid: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun setLocation(location: Location) {
         database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("latitude").setValue(location.latitude)
         database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("longitude").setValue(location.longitude)
@@ -231,6 +235,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
+
 
     private fun shareEmail() {
         val emailIntent = Intent(Intent.ACTION_SEND)
