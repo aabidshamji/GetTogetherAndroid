@@ -38,13 +38,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var groups: MutableList<Locations>
     private var lat = 200.0
     private var long = 200.0
-    private val users = MutableList(4) {User("1", "Sanah",2,2)}
+    private val users = MutableList(4) {User("1", "Sanah",7.563895,19.0504951)}
     private lateinit var mapActivityAdapter: MapActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        //TODO This could cause issues.  If code crashes check this
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         val mapFragment = supportFragmentManager
@@ -87,12 +86,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 if((users[i].latitude-1)<users[j].latitude && users[j].latitude<(users[i].latitude+1)
                     && (users[i].longitude-1)<users[j].longitude && users[j].longitude<(users[i].longitude+1)) {
                     members.add(users[j])
-                    users[j].longitude = 200
+                    users[j].longitude = 200.0
                 }
             }
             if(members.size > 2) {
-                var lat = 0
-                var long = 0
+                var lat = 0.0
+                var long = 0.0
                 for(member in members) {
                     lat += member.latitude
                     long += member.longitude
@@ -108,6 +107,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        mMap.addMarker(MarkerOptions().position(LatLng(47.565589, 19.055473)).title("TEST"))
 
         //TODO Update users location on location changed
         //TODO add users here
@@ -122,7 +122,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val longitude = location.longitude.toDouble()
             val gc = Geocoder(this, Locale.getDefault())
             var addrs: List<Address>? = gc.getFromLocation(latitude, longitude, 1)
-            mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude.toDouble(),groups[i].longitude.toDouble())).title("${groups[i].size} members at ${addrs?.get(0)}"))
+            mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude, groups[i].longitude)).title("${groups[i].size} members at ${addrs?.get(0)}"))
         }
 
         mMap.setOnMarkerClickListener {
@@ -141,9 +141,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this, "No location selected", Toast.LENGTH_LONG).show()
         }
         else {
-            val uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, long)
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            this.startActivity(intent)
+            val uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", lat, long, lat, long)
+            val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
         }
     }
 
