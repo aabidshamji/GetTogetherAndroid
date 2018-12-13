@@ -48,7 +48,7 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
         val group = groupList[position]
 
         holder.tvGroupName.text = group.name
-        holder.tvUserNum.text = groupList.size.toString()
+        holder.tvUserNum.text = group.members.size.toString()
     }
 
     /**private fun deleteTodo(adapterPosition: Int) {

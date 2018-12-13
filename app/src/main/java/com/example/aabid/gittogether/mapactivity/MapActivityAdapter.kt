@@ -60,7 +60,6 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder> {
     inner class ViewHolder(groupMembersView: View) : RecyclerView.ViewHolder(groupMembersView)
     {
         val tvName = groupMembersView.tvUserName
-        val ivProfilePic = itemView.ivProfilePic
     }
 
 

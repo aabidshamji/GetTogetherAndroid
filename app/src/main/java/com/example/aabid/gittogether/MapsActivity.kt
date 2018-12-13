@@ -55,9 +55,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val intentMaps = intent
         val groupID = intentMaps.getStringExtra("GROUP_NAME")
-        val currUser = intentMaps.getIntExtra("USER", 0)
+        val currUserID = intentMaps.getIntExtra("USER", 0)
 
-        tvGroupName.text = groupID.toString()
+        tvGroupName.text = applicationContext.getString(R.string.group_name, groupID.toString())
 
         initRecyclerView()
     }
