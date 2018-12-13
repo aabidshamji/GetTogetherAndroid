@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.EditText
+import com.example.aabid.gittogether.data.Group
 import com.example.aabid.gittogether.data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -14,8 +15,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.code_dialog.view.*
 import kotlinx.android.synthetic.main.group_dialog.view.*
+import java.util.*
 
 class CodeDialog : DialogFragment() {
+
+    interface GroupHandler {
+        fun groupUpdated(uid: String)
+    }
+
+    private lateinit var groupHandler: GroupHandler
 
     private lateinit var etGroupCode: EditText
 
@@ -49,13 +57,19 @@ class CodeDialog : DialogFragment() {
         val positiveButton = (dialog as AlertDialog).getButton(Dialog.BUTTON_POSITIVE)
         positiveButton.setOnClickListener {
             if (etGroupCode.text.isNotEmpty()) {
-                // TODO join group here
+                handleGroupUpdate()
                 dialog.dismiss()
             } else {
                 etGroupCode.error = "This field cannot be empty"
             }
         }
     }
+
+    private fun handleGroupUpdate() {
+        groupHandler.groupUpdated(etGroupCode.text.toString())
+    }
+
+
 
 
 
