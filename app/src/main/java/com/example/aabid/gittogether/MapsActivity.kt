@@ -60,8 +60,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val intentMaps = intent
         val groupName = intentMaps.getStringExtra("GROUP_NAME")
 
-        val currUserID = intentMaps.getIntExtra("USER", 0)
-
         tvGroupName.text = applicationContext.getString(R.string.group_name, groupName.toString())
 
         groupID = intentMaps.getStringExtra("GROUP_ID")
@@ -71,13 +69,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mCurrGroupReference = database.child("groups").child(groupID)
         mUsersReference = database.child("users")
 
-        initRecyclerView()
-    }
+        tvGroupID.text = applicationContext.getString(R.string.groupid, groupObj.uid)
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.maps_menu, menu)
-        return true
+        initRecyclerView()
     }
 
     /**
@@ -247,7 +241,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
         })
@@ -267,7 +260,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.i("GroupObj latitude", groupObj.latitude.toString())
                 Log.i("GroupObj latitude", groupObj.longitude.toString())
 
+                tvGroupID.text = applicationContext.getString(R.string.groupid, groupObj.uid)
+
                 getGroupMembers()
+
+
 
             }
 
@@ -289,21 +286,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val username = v.tvUserName.text.toString()
         intentStart.putExtra("USER_NAME", username)
         startActivity(intentStart)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.action_leave -> {
-                //TODO Group ID thing
-            }
-            R.id.action_refresh -> {
-                //TODO Need to update firebase information
-            }
-        }
-        return when (item.itemId) {
-            R.id.action_leave -> true
-            R.id.action_refresh -> true
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }

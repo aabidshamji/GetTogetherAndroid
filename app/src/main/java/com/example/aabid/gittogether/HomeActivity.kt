@@ -68,11 +68,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         groupsList = mutableListOf()
 
 
-
-
-        //mGroupsReference.addValueEventListener(groupsListener)
-
-
         initRecyclerView()
 
     }
@@ -95,7 +90,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.e("loadPost:onCancelled", databaseError.toException().toString())
-                // ...
             }
         }
 
@@ -105,15 +99,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun getGroups(){
         mGroupsReference.addChildEventListener(object:ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -134,13 +125,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 } else {
                     Log.d("TAGDDD NOT-ADDED",group?.name)
                 }
-
-                //p0.key
-
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
         })
@@ -181,7 +168,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.home, menu)
 
         val currUser = mAuth.currentUser
 
@@ -193,16 +179,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             tvMenuEmail.text = "Error"
         }
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            //R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
