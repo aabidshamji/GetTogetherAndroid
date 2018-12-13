@@ -9,7 +9,7 @@
             android:id="@+id/etGroupName"
             android:layout_width="272dp"
             android:layout_marginLeft="5dp"
-            android:hint="Enter group name"
-            android:layout_height="wrap_content"/>
+            android:hint="@string/enter_group_name"
+            android:layout_height="wrap_content" android:layout_marginStart="5dp"/>
 
 </LinearLayout>

@@ -3,13 +3,10 @@ package com.example.aabid.gittogether
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.aabid.gittogether.data.Locations
@@ -26,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.group_member_row_content.view.*
 import java.util.*
 import android.util.Log
-import android.view.Menu
 import com.example.aabid.gittogether.data.Group
 import com.google.android.gms.maps.CameraUpdateFactory
 
@@ -36,10 +32,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private  lateinit var database : DatabaseReference
     private lateinit var groups: MutableList<Locations>
-    private lateinit var membersList: Array<String>
     private var lat = 200.0
     private var long = 200.0
-    private val users = mutableListOf<User>()//MutableList(4) {User("1", "Sanah",40.0,19.0)}
+    private val users = mutableListOf<User>()
     private lateinit var mapActivityAdapter: MapActivityAdapter
     private lateinit var groupID : String
     private lateinit var groupObj : Group
@@ -86,9 +81,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun neighbor(users: MutableList<User>): MutableList<Locations> {
         val dist = .0004
-        var groups = mutableListOf<Locations>()
+        val groups = mutableListOf<Locations>()
         for(i in 0 until users.size) {
-            var members = mutableListOf<User>()
+            val members = mutableListOf<User>()
             var lat = users[i].latitude
             var long = users[i].longitude
             members.add(users[i])
@@ -126,12 +121,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         else {
-            mMap.addMarker(MarkerOptions().position(LatLng(0.0,0.0)).title("No groups :("))
+            mMap.addMarker(MarkerOptions().position(LatLng(0.0,0.0)).title(getString(R.string.no_groups)))
         }
 
 
         mMap.setOnMarkerClickListener {
-            if(it.title != "No groups :(") {
+            if(it.title != getString(R.string.no_groups)) {
                 btnDirections.text = applicationContext.getString(R.string.directions, it.title)
                 lat = it.position.latitude
                 long = it.position.longitude
@@ -153,24 +148,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     private fun initRecyclerView() {
-        /*Thread {
-
-            runOnUiThread {
-                mapActivityAdapter = MapActivityAdapter(this@MapsActivity, users)
-
-                recyclerViewNames.adapter = mapActivityAdapter
-            }
-        }.start()*/
-
         mapActivityAdapter = MapActivityAdapter(this@MapsActivity, users)
 
         recyclerViewNames.adapter = mapActivityAdapter
 
         startGetUsers()
-
-        /*for (u in users) {
-            mapActivityAdapter.addGroupMembers(u)
-        } */
     }
 
     private fun getGroupMembers() {
@@ -201,11 +183,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     mapActivityAdapter.addGroupMembers(user!!)
 
-                    Log.d("TAGDDD ADDED", user?.name)
+                    Log.d("TAGDDD ADDED", user.name)
 
-                    Log.d("T addingUser name", user?.name)
-                    Log.d("T addingUser uid", user?.uid)
-                    Log.d("T addingUser members", user?.groups.toString())
+                    Log.d("T addingUser name", user.name)
+                    Log.d("T addingUser uid", user.uid)
+                    Log.d("T addingUser members", user.groups.toString())
 
                 } else {
                     Log.d("TAGDDD NOT-ADDED",user?.name)
@@ -226,18 +208,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (groupObj.members.contains(user?.uid)) {
                     mapActivityAdapter.addGroupMembers(user!!)
 
-                    Log.d("TAGDDD ADDED", user?.name)
+                    Log.d("TAGDDD ADDED", user.name)
 
-                    Log.d("T addingUser name", user?.name)
-                    Log.d("T addingUser uid", user?.uid)
-                    Log.d("T addingUser members", user?.groups.toString())
+                    Log.d("T addingUser name", user.name)
+                    Log.d("T addingUser uid", user.uid)
+                    Log.d("T addingUser members", user.groups.toString())
 
                 } else {
                     Log.d("TAGDDD NOT-ADDED",user?.name)
                 }
-
-                //p0.key
-
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {

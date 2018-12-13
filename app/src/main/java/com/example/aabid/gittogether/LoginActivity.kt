@@ -6,14 +6,7 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.AuthResult
-import android.support.annotation.NonNull
-import com.google.android.gms.tasks.OnCompleteListener
-import android.R.attr.password
-import android.opengl.Visibility
 import android.view.View
-import com.google.firebase.auth.UserProfileChangeRequest
 
 
 class LoginActivity : AppCompatActivity() {
@@ -48,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         }.addOnFailureListener{
             progressBar.visibility = View.INVISIBLE
             Toast.makeText(this@LoginActivity,
-                "Login error ${it.message}",Toast.LENGTH_LONG).show()
+                applicationContext.getString(R.string.login_error, it.message),Toast.LENGTH_LONG).show()
         }
 
 
@@ -57,11 +50,11 @@ class LoginActivity : AppCompatActivity() {
     private fun isFormValid(): Boolean {
         return when {
             etEmail.text.isEmpty() -> {
-                etEmail.error = "This field can not be empty"
+                etEmail.error = getString(R.string.this_field_cannot)
                 false
             }
             etPassword.text.isEmpty() -> {
-                etPassword.error = "This field can not be empty"
+                etPassword.error = getString(R.string.this_field_cannot)
                 false
             }
             else -> true

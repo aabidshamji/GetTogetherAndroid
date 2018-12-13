@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(animation: Animation?) {
-                var intentStart = Intent()
+                val intentStart = Intent()
                 intentStart.setClass((this@SplashActivity),
                     LoginActivity::class.java)
                 startActivity(intentStart)
