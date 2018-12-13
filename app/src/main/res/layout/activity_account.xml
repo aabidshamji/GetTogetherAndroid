@@ -11,7 +11,7 @@
             android:text="@string/first_name"
             android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:id="@+id/tvFirst" android:layout_marginTop="8dp"
+            android:id="@+id/tvFirst"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
@@ -19,8 +19,9 @@
             android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.121"
             app:layout_constraintVertical_bias="0.119"/>
     <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:id="@+id/guideline" app:layout_constraintGuide_begin="20dp"
-                                          android:orientation="vertical"/>
+                                          android:id="@+id/guideline"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.052083332"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,17 +119,18 @@
             android:text="@string/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnRegister" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginBottom="28dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.439"/>
+            android:id="@+id/btnRegister"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/progressBar2"
             android:visibility="invisible"
-            app:layout_constraintStart_toEndOf="@+id/btnRegister" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnRegister"/>
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnRegister"
+            app:layout_constraintStart_toStartOf="@+id/btnRegister"
+            app:layout_constraintEnd_toEndOf="@+id/btnRegister"/>
 </android.support.constraint.ConstraintLayout>

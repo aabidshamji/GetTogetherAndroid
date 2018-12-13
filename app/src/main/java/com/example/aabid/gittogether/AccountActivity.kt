@@ -135,4 +135,8 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        finish()
+    }
 }

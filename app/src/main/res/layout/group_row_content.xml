@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:text="@string/group_name_name"
             android:textSize="24sp"
-            android:maxLength="8"
+            android:maxLength="16"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
