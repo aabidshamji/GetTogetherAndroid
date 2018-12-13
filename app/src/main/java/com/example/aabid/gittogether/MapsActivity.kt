@@ -291,7 +291,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_leave -> {
-                //TODO Need to remove user with given id
+                val intentID = Intent()
+                intentID.setClass(this@MapsActivity, CodeActivity::class.java)
+                val groupid = groupObj.uid
+                intentID.putExtra("GROUPID", groupid)
+                startActivity(intentID)
             }
             R.id.action_refresh -> {
                 //TODO Need to update firebase information
