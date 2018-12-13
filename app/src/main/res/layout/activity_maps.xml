@@ -9,7 +9,7 @@
                                              tools:context=".MapsActivity">
 
     <fragment
-            android:layout_width="381dp"
+            android:layout_width="0dp"
             android:layout_height="186dp"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment" app:layout_constraintEnd_toEndOf="parent"
@@ -54,8 +54,8 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"/>
 
     <android.support.v7.widget.RecyclerView
-            android:layout_width="369dp"
-            android:layout_height="184dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:id="@+id/recyclerViewNames"
             android:scrollbars="vertical"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
