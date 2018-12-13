@@ -25,6 +25,7 @@ import java.util.*
 import android.util.Log
 import android.view.Menu
 import com.example.aabid.gittogether.data.Group
+import com.google.android.gms.maps.CameraUpdateFactory
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -35,7 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var membersList: Array<String>
     private var lat = 200.0
     private var long = 200.0
-    private val users = MutableList(4) {User("1", "Sanah",2.0,2.0)}
+    private val users = MutableList(4) {User("1", "Sanah",40.0,19.0)}
     private lateinit var mapActivityAdapter: MapActivityAdapter
     private lateinit var groupID : String
     private lateinit var groupObj : Group
@@ -90,21 +91,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         var groups = mutableListOf<Locations>()
         for(i in 0 until users.size) {
             var members = mutableListOf<User>()
+            var lat = users[i].latitude
+            var long = users[i].longitude
             members.add(users[i])
-            for(j in i until users.size) {
+            for(j in i+1 until users.size) {
                 if((users[i].latitude-1)<users[j].latitude && users[j].latitude<(users[i].latitude+1)
                     && (users[i].longitude-1)<users[j].longitude && users[j].longitude<(users[i].longitude+1)) {
                     members.add(users[j])
+                    lat += users[j].latitude
+                    long += users[j].longitude
                     users[j].longitude = 200.0 + j*2
                 }
             }
             if(members.size > 2) {
-                var lat = 0.0
-                var long = 0.0
-                for(member in members) {
-                    lat += member.latitude
-                    long += member.longitude
-                }
                 groups.add(Locations(lat/members.size, long/members.size, members.size))
             }
         }
@@ -124,13 +123,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         //User("3", "Aabid", 2,2)}
 
         groups = neighbor(users)
-        for(i in 0 until groups.size) {
-            mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude, groups[i].longitude)).title("${groups[i].size} members"))
+        if(groups.size != 0) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(groups[0].latitude,groups[0].longitude)))
+            for(i in 0 until groups.size) {
+                mMap.addMarker(MarkerOptions().position(LatLng(groups[i].latitude, groups[i].longitude)).title("${groups[i].size} members"))
+            }
         }
+        else {
+            mMap.addMarker(MarkerOptions().position(LatLng(0.0,0.0)).title("No groups :("))
+        }
+
 
         mMap.setOnMarkerClickListener {
             btnDirections.text = applicationContext.getString(R.string.directions, it.title)
-
+            lat = it.position.latitude
+            long = it.position.longitude
             false
         }
     }
@@ -140,7 +147,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this, "No location selected", Toast.LENGTH_LONG).show()
         }
         else {
-            val uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, long)
+            val uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", lat, long, lat, long)
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             this.startActivity(intent)
         }
