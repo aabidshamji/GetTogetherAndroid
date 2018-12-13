@@ -36,7 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var membersList: Array<String>
     private var lat = 200.0
     private var long = 200.0
-    private val users = MutableList(4) {User("1", "Sanah",40.0,19.0)}
+    private val users = mutableListOf<User>()//MutableList(4) {User("1", "Sanah",40.0,19.0)}
     private lateinit var mapActivityAdapter: MapActivityAdapter
     private lateinit var groupID : String
     private lateinit var groupObj : Group
