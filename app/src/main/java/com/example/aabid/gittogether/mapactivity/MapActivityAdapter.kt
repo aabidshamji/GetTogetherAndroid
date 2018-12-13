@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.example.aabid.gittogether.R
 import com.example.aabid.gittogether.data.User
 import kotlinx.android.synthetic.main.group_member_row_content.view.*
-import java.util.*
 
 class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder> {
 
@@ -41,20 +40,6 @@ class MapActivityAdapter : RecyclerView.Adapter<MapActivityAdapter.ViewHolder> {
         val groupMembers = groupMembersItems[position]
 
         holder.tvName.text = groupMembers.name
-    }
-
-    private fun deleteGroupMembers(adapterPosition: Int) {
-        //TODO Add user to group and display
-        /*Thread {
-            AppDatabase.getInstance(
-                context).groupMembersDao().deleteGroupMembers(groupMembersItems[adapterPosition])
-
-            groupMembersItems.removeAt(adapterPosition)
-
-            (context as MainActivity).runOnUiThread {
-                notifyItemRemoved(adapterPosition)
-            }
-        }.start()*/
     }
 
     inner class ViewHolder(groupMembersView: View) : RecyclerView.ViewHolder(groupMembersView)

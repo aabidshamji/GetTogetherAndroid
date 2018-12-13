@@ -1,26 +1,18 @@
 package com.example.aabid.gittogether.groupadapter
 
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.Adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.aabid.gittogether.R
 import com.example.aabid.gittogether.data.Group
-import com.example.aabid.gittogether.data.User
-import com.example.aabid.gittogether.touch.TouchHelperAdapter
-import kotlinx.android.synthetic.main.group_member_row_content.view.*
 import kotlinx.android.synthetic.main.group_row_content.view.*
-import java.util.*
 
 class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder> {
 
 
-    var groupList = mutableListOf<Group>()
+    private var groupList = mutableListOf<Group>()
 
     val context : Context
 
@@ -54,9 +46,9 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
-        val tvGroupName = itemView.tvGroupName
-        val tvUserNum = itemView.tvUserNum
-        val tvGroupID = itemView.tvGroupID
+        val tvGroupName = itemView.tvGroupName!!
+        val tvUserNum = itemView.tvUserNum!!
+        val tvGroupID = itemView.tvGroupID!!
     }
 
 
@@ -84,11 +76,4 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
 
         notifyItemInserted(0)
     }
-
-    fun addFullGroup(groupListNew: MutableList<Group>) {
-        groupList = groupListNew
-        notifyItemInserted(0)
-    }
-
-
 }

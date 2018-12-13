@@ -23,7 +23,7 @@ class GroupDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
 
-        builder.setTitle("New Group")
+        builder.setTitle(getString(R.string.new_group))
 
         val rootView = requireActivity().layoutInflater.inflate(
             R.layout.group_dialog, null
@@ -32,11 +32,11 @@ class GroupDialog : DialogFragment() {
 
         builder.setView(rootView)
 
-        builder.setPositiveButton("DONE") {
+        builder.setPositiveButton(getString(R.string.done_caps)) {
                 dialog, witch -> // empty
         }
 
-        builder.setNegativeButton("CANCEL") {
+        builder.setNegativeButton(getString(R.string.cancel_caps)) {
             dialog, which ->  dialog.dismiss()
         }
 
@@ -77,7 +77,7 @@ class GroupDialog : DialogFragment() {
                 createGroup(etGroupName.text.toString())
                 dialog.dismiss()
             } else {
-                etGroupName.error = "This field cannot be empty"
+                etGroupName.error = getString(R.string.this_field_cannot)
             }
         }
     }
@@ -99,7 +99,7 @@ class GroupDialog : DialogFragment() {
 
         }
             .addOnFailureListener {
-                Toast.makeText(context as HomeActivity, "Failed :(", Toast.LENGTH_LONG).show()
+                Toast.makeText(context as HomeActivity, getString(R.string.failed), Toast.LENGTH_LONG).show()
             }
 
         

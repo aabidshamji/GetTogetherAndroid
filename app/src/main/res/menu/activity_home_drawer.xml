@@ -22,12 +22,12 @@
                 android:title="@string/share"/>
     </group>
 
-    <item android:title="System">
+    <item android:title="@string/system">
         <menu>
             <item
                     android:id="@+id/nav_logout"
                     android:icon="@drawable/ic_menu_send"
-                    android:title="Logout"/>
+                    android:title="@string/logout"/>
         </menu>
     </item>
 

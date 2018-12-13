@@ -137,7 +137,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun directions(v: View) {
         if(lat > 180.0) {
-            Toast.makeText(this, "No location selected", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.no_location_selected), Toast.LENGTH_LONG).show()
         }
         else {
             val uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", lat, long, lat, long)

@@ -7,19 +7,15 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import com.example.aabid.gittogether.R.id.add
-import com.example.aabid.gittogether.R.id.home
 import com.example.aabid.gittogether.data.Group
 import com.example.aabid.gittogether.data.User
 import com.example.aabid.gittogether.groupadapter.HomeActivityAdapter
 import com.example.aabid.gittogether.mapactivity.MyLocationProvider
-import com.example.aabid.gittogether.touch.TouchHelperCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.livinglifetechway.quickpermissions.annotations.WithPermissions
@@ -31,7 +27,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.content_home.*
-import kotlinx.android.synthetic.main.group_row.*
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MyLocationProvider.OnNewLocationAvailable, CodeDialog.GroupHandler {
@@ -76,7 +71,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    fun startGetGroups(){
+    private fun startGetGroups(){
         val currUserListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -120,17 +115,17 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ALLgroupsList.add(group!!)
 
 
-                if (currUser.groups.contains(group?.uid)) {
-                    homeActivityAdapter.addGroup(group!!)
-                    Log.d("TAGDDD ADDED", group?.name)
+                if (currUser.groups.contains(group.uid)) {
+                    homeActivityAdapter.addGroup(group)
+                    Log.d("TAGDDD ADDED", group.name)
 
-                    Log.d("T addingGroup founder", group?.founder)
-                    Log.d("T addingGroup name", group?.name)
-                    Log.d("T addingGroup uid", group?.uid)
-                    Log.d("T addingGroup members", group?.members.toString())
+                    Log.d("T addingGroup founder", group.founder)
+                    Log.d("T addingGroup name", group.name)
+                    Log.d("T addingGroup uid", group.uid)
+                    Log.d("T addingGroup members", group.members.toString())
 
                 } else {
-                    Log.d("TAGDDD NOT-ADDED",group?.name)
+                    Log.d("TAGDDD NOT-ADDED", group.name)
                 }
             }
 
@@ -171,13 +166,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 joined = true
                 currUser.groups.add(uid)
                 database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("groups").setValue(currUser.groups)
-                Toast.makeText(this@HomeActivity, "Group joined successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@HomeActivity, getString(R.string.group_joined_successfully), Toast.LENGTH_LONG).show()
                 break
             }
         }
 
         if (!joined) {
-            Toast.makeText(this@HomeActivity, "Group does not exists", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@HomeActivity, getString(R.string.group_does_not_exist), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -203,8 +198,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             tvMenuName.text = currUser.displayName.toString()
             tvMenuEmail.text = currUser.email.toString()
         } else {
-            tvMenuName.text = "Error"
-            tvMenuEmail.text = "Error"
+            tvMenuName.text = getString(R.string.error)
+            tvMenuEmail.text = getString(R.string.error)
         }
         return true
     }
@@ -241,13 +236,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun shareEmail() {
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Join This Awesome App!!")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "You should download this app called get together. It is really cool!")
-        startActivity(Intent.createChooser(emailIntent, "Send mail..."))
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.join_the_app))
+        emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.you_should_download))
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
     }
 
     private fun logout() {
-        var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
         mAuth.signOut()
         startActivity(
             Intent(
@@ -260,12 +255,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initRecyclerView() {
         homeActivityAdapter = HomeActivityAdapter(this@HomeActivity, groupsList)
         recycler_groups.adapter = homeActivityAdapter
-
-        //getGroups()
         startGetGroups()
     }
-
-
 
     private fun showAddGroupDialog() {
         GroupDialog().show(supportFragmentManager,
@@ -283,7 +274,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             MapsActivity::class.java)
         val group = v.tvGroupName.text.toString()
 
-        //TODO Currently taking the group name but need the group id
         intentStart.putExtra("GROUP_NAME", group)
         intentStart.putExtra("GROUP_ID", v.tvGroupID.text.toString())
         intentStart.putExtra("USER", currUser.uid)
@@ -294,6 +284,4 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onDestroy()
         myLocationProvider.stopLocationMonitoring()
     }
-
-
 }

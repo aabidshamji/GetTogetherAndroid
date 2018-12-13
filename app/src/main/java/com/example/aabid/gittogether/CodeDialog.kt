@@ -5,19 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.widget.EditText
-import com.example.aabid.gittogether.data.Group
-import com.example.aabid.gittogether.data.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.code_dialog.view.*
-import kotlinx.android.synthetic.main.group_dialog.view.*
 import java.lang.RuntimeException
-import java.util.*
 
 class CodeDialog : DialogFragment() {
 
@@ -34,7 +24,7 @@ class CodeDialog : DialogFragment() {
             groupHandler = context
         } else {
             throw RuntimeException(
-                "The activity does not implement the GroupHandlerInterface")
+                getString(R.string.ground_handler_interface))
         }
     }
 
@@ -44,7 +34,7 @@ class CodeDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
 
-        builder.setTitle("Join Group")
+        builder.setTitle(getString(R.string.join_group))
 
         val rootView = requireActivity().layoutInflater.inflate(
             R.layout.code_dialog, null
@@ -54,11 +44,11 @@ class CodeDialog : DialogFragment() {
 
         builder.setView(rootView)
 
-        builder.setPositiveButton("DONE") { dialog, witch ->
+        builder.setPositiveButton(getString(R.string.done_caps)) { dialog, witch ->
             // empty
         }
 
-        builder.setNegativeButton("CANCEL") { dialog, which ->
+        builder.setNegativeButton(getString(R.string.cancel_caps)) { dialog, which ->
             dialog.dismiss()
         }
 
@@ -74,7 +64,7 @@ class CodeDialog : DialogFragment() {
                 handleGroupUpdate()
                 dialog.dismiss()
             } else {
-                etGroupCode.error = "This field cannot be empty"
+                etGroupCode.error = getString(R.string.this_field_cannot)
             }
         }
     }

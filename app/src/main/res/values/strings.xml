@@ -116,14 +116,24 @@
     <string name="email_address">Email Address:</string>
     <string name="confirm_password">Confirm Password:</string>
     <string name="register">Register</string>
-    <string name="error">Error</string>
     <string name="this_field_cannot">This field cannot be empty</string>
     <string name="login_error">Login error %1$s</string>
     <string name="register_error">Register error %1$s</string>
     <string name="password_does_not_match">Password does not match</string>
-    <string name="failed">Failed :(</string>
     <string name="done">DONE!</string>
     <string name="error_adding_user_to_db">Error Adding User to DB</string>
     <string name="registration_ok">Registration OK</string>
     <string name="no_groups">No groups :(</string>
+    <string name="ground_handler_interface">The activity does not implement the GroupHandlerInterface</string>
+    <string name="done_caps">DONE</string>
+    <string name="cancel_caps">CANCEL</string>
+    <string name="new_group">New Group</string>
+    <string name="send_mail">Send mail…</string>
+    <string name="you_should_download">You should download this app called get together. It is really cool!</string>
+    <string name="join_the_app">Join This Awesome App!!</string>
+    <string name="group_does_not_exist">Group does not exists</string>
+    <string name="group_joined_successfully">Group joined successfully</string>
+    <string name="no_location_selected">No location selected</string>
+    <string name="system">System</string>
+    <string name="logout">Logout</string>
 </resources>
