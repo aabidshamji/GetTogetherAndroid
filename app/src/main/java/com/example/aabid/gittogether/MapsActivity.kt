@@ -294,11 +294,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_leave -> {
-                val intentID = Intent()
-                intentID.setClass(this@MapsActivity, CodeActivity::class.java)
-                val groupid = groupObj.uid
-                intentID.putExtra("GROUPID", groupid)
-                startActivity(intentID)
+                //TODO Group ID thing
             }
             R.id.action_refresh -> {
                 //TODO Need to update firebase information
