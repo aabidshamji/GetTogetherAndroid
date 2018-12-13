@@ -149,14 +149,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     private fun initRecyclerView() {
-        /*Thread {
-
-            runOnUiThread {
-                mapActivityAdapter = MapActivityAdapter(this@MapsActivity, users)
-
-                recyclerViewNames.adapter = mapActivityAdapter
-            }
-        }.start()*/
 
         mapActivityAdapter = MapActivityAdapter(this@MapsActivity, users)
 
