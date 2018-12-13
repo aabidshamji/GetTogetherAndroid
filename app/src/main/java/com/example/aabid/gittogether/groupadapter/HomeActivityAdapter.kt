@@ -51,19 +51,6 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.ViewHolder>
         holder.tvUserNum.text = group.members.size.toString()
     }
 
-    /**private fun deleteTodo(adapterPosition: Int) {
-        Thread {
-            AppDatabase.getInstance(
-                context).todoDao().deleteTodo(todoItems[adapterPosition])
-
-            todoItems.removeAt(adapterPosition)
-
-            (context as ScrollingActivity).runOnUiThread {
-                notifyItemRemoved(adapterPosition)
-            }
-        }.start()
-    } **/
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
         val tvGroupName = itemView.tvGroupName
