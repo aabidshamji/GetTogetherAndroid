@@ -136,4 +136,6 @@
     <string name="no_location_selected">No location selected</string>
     <string name="system">System</string>
     <string name="logout">Logout</string>
+    <string name="failed">Failed</string>
+    <string name="error">Error</string>
 </resources>
